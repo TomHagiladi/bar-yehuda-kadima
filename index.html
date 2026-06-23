@@ -29,11 +29,12 @@
   --radius:16px; --maxw:1080px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth; overflow-x:clip}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:"Heebo","Arial",sans-serif; line-height:1.7; font-size:17px;
   -webkit-font-smoothing:antialiased;
+  overflow-x:clip; max-width:100%; overflow-wrap:break-word;
 }
 h1,h2,h3,.display{font-family:"Rubik","Arial",sans-serif; line-height:1.18; margin:0}
 img{max-width:100%; display:block}
@@ -87,7 +88,7 @@ header.site{
 
 /* ---------- hero ---------- */
 .hero{position:relative; color:#fff; overflow:hidden; isolation:isolate; padding:0}
-.hero .bgimg{position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover}
+.hero .bgimg{position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; object-position:center 32%}
 .hero::after{content:""; position:absolute; inset:0; z-index:-1;
   background:linear-gradient(180deg,rgba(20,18,22,.62),rgba(24,16,18,.82));}
 .hero .inner{max-width:var(--maxw); margin:0 auto; padding:84px 20px 70px}
@@ -191,10 +192,26 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
 
 @media (max-width:760px){
   section{padding:46px 0}
+  .hero .inner{padding:60px 18px 46px}
+  .hero h1{font-size:clamp(1.8rem,7vw,2.4rem)}
+  .story-list{columns:1 !important}
   .strip .wrap{grid-template-columns:1fr; gap:8px}
   .row2{grid-template-columns:1fr}
   footer .grid{grid-template-columns:1fr}
   .letter-cta{flex-direction:column; align-items:flex-start}
+  .hcount{display:none}
+  .bar{gap:10px}
+  .brand{font-size:.98rem}
+  .btn{padding:.6rem 1.05rem; font-size:.95rem}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .hero .inner{padding:52px 16px 42px}
+  .hero .cta-row{gap:12px}
+  .hero .counter-badge{width:100%; justify-content:center}
+  .sign .card{padding:24px 18px}
+  figure.ev img{height:200px}
+  .section-title{font-size:1.5rem}
 }
 </style>
 </head>
@@ -203,7 +220,7 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
 
 <header class="site">
   <div class="wrap bar">
-    <a class="brand" href="#"><span class="dot" aria-hidden="true"></span>בר יהודה בטוחה</a>
+    <a class="brand" href="#"><span class="dot" aria-hidden="true"></span>סכנה תחבורתית · רחוב בר יהודה</a>
     <span class="spacer"></span>
     <span class="hcount" aria-hidden="true">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -247,7 +264,7 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
       <span class="eyebrow">מה קורה ברחוב שלנו</span>
       <h2 class="section-title" id="story-title">רחוב מגורים צר שהפך למסלול מסוכן</h2>
       <p class="section-intro">רחוב בר יהודה הוא רחוב צדדי וצר בלב שכונת מגורים — רחוב שילדים חוצים אותו בדרכם אל גן השעשועים ואל בית-הספר. אך מדי יום חולפים בו רכבים במהירות מופרזת, בשני הכיוונים, בכביש שאינו רחב מספיק לשניהם.</p>
-      <ul style="columns:2; column-gap:34px; max-width:860px; color:var(--ink-soft); padding-inline-start:20px; line-height:1.9">
+      <ul class="story-list" style="columns:2; column-gap:34px; max-width:860px; color:var(--ink-soft); padding-inline-start:20px; line-height:1.9">
         <li>כדי לעבור את הרחוב הצר בבוקר, רכבים עולים על המדרכות שוב ושוב — בדיוק במקום שבו הולכים ילדים.</li>
         <li>בעיקול הרחוב שדה הראייה חסום לחלוטין — רכבים הבאים משני הכיוונים אינם רואים זה את זה עד הרגע האחרון.</li>
         <li>נהיגה במהירות מסוכנת בכל שעות היום והלילה, ברחוב שמשחקים בו ילדים.</li>
@@ -524,16 +541,22 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
   var form = document.getElementById('sign-form');
   var msg = document.getElementById('form-msg');
   var submitBtn = document.getElementById('sign-submit');
+  var fName = document.getElementById('f-name');
+  var fStreet = document.getElementById('f-street');
+  var fHouse = document.getElementById('f-house');
+  var fPhone = document.getElementById('f-phone');
+  var fConsent = document.getElementById('f-consent');
+  var fHoney = form.querySelector('input[name="website"]');
   function showMsg(type, text){ msg.className = 'formmsg ' + type; msg.textContent = text; }
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if(form.website && form.website.value){ return; } // honeypot
-    var name = form.name.value.trim();
-    var street = form.street.value;
-    var house = form.house.value.trim();
+    if(fHoney && fHoney.value){ return; } // honeypot
+    var name = fName.value.trim();
+    var street = fStreet.value;
+    var house = fHouse.value.trim();
     if(!name || !street || !house){ showMsg('err','נא למלא שם, רחוב ומספר בית.'); return; }
-    if(!form.consent.checked){ showMsg('err','יש לאשר את ההסכמה כדי לחתום.'); return; }
+    if(!fConsent.checked){ showMsg('err','יש לאשר את ההסכמה כדי לחתום.'); return; }
 
     if(!ENDPOINT || ENDPOINT.indexOf('PASTE') !== -1){
       showMsg('err','מנגנון החתימות בהשלמה אחרונה ויפעל בקרוב מאוד. תודה על הסבלנות!');
@@ -541,13 +564,13 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
     }
 
     submitBtn.disabled = true; submitBtn.textContent = 'רגע, שולח…';
-    var payload = { name:name, street:street, house:house, phone:form.phone.value.trim(), ts:new Date().toISOString() };
+    var payload = { name:name, street:street, house:house, phone:fPhone.value.trim(), ts:new Date().toISOString() };
 
     fetch(ENDPOINT, { method:'POST', mode:'no-cors',
       headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) })
     .then(function(){
       form.reset();
-      showMsg('ok','תודה ' + name.split(' ')[0] + '! חתימתך נוספה לעצומה. שתפו עם השכנים כדי שנהיה חזקים יותר 💪');
+      showMsg('ok','תודה ' + name.split(' ')[0] + '! חתימתך נוספה לעצומה. כל שיתוף יעזור להראות למועצה עד כמה הנושא חשוב לתושבי השכונה — שתפו את הקישור 🙏');
       setTimeout(loadCount, 1200); setTimeout(loadCount, 3500);
     })
     .catch(function(){
