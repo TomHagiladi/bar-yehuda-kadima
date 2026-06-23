@@ -530,18 +530,26 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
     if(els.fill) els.fill.style.width = pct + '%';
   }
 
-  // JSONP read (CORS-safe) for the live count
-  function loadCount(){
-    if(!ENDPOINT || ENDPOINT.indexOf('PASTE') !== -1){ setCount(0); return; }
+  // Live count: try fetch (no-store) first, fall back to JSONP. Never force 0 on failure.
+  function jsonpCount(){
     var cb = 'jp_' + Math.floor(performance.now()*1000 % 1e9);
-    window[cb] = function(data){
-      try{ setCount((data && typeof data.count==='number') ? data.count : 0); }catch(e){}
-      delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s);
-    };
     var s = document.createElement('script');
-    s.src = ENDPOINT + (ENDPOINT.indexOf('?')===-1?'?':'&') + 'action=count&callback=' + cb;
-    s.onerror = function(){ setCount(0); };
+    window[cb] = function(data){
+      try{ if(data && typeof data.count==='number') setCount(data.count); }catch(e){}
+      try{ delete window[cb]; }catch(e){} if(s.parentNode) s.parentNode.removeChild(s);
+    };
+    s.src = ENDPOINT + (ENDPOINT.indexOf('?')===-1?'?':'&') + 'action=count&callback=' + cb + '&_=' + Math.floor(performance.now());
+    s.onerror = function(){ if(s.parentNode) s.parentNode.removeChild(s); };
     document.body.appendChild(s);
+  }
+  function loadCount(){
+    if(!ENDPOINT || ENDPOINT.indexOf('PASTE') !== -1){ return; }
+    try{
+      fetch(ENDPOINT + '?action=count&_=' + Math.floor(performance.now()), {cache:'no-store'})
+        .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+        .then(function(d){ if(d && typeof d.count==='number'){ setCount(d.count); } else { jsonpCount(); } })
+        .catch(function(){ jsonpCount(); });
+    }catch(e){ jsonpCount(); }
   }
 
   // Form submit
