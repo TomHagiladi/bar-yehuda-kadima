@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>עצומת תושבי רחוב בר יהודה, קדימה — די למפגעי הבטיחות</title>
+<meta name="description" content="עצומת תושבי רחוב בר יהודה בקדימה: דרישה למועצה האזורית קדימה-צורן להפוך את הרחוב לחד-סטרי, להתקין פסי האטה ומראה בעיקול — לאחר תאונה קשה וחמש שנות התרעות.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="עצומת תושבי רחוב בר יהודה — די למפגעי הבטיחות">
+<meta property="og:description" content="היום אירעה תאונה קשה בעיקול רחוב בר יהודה. חמש שנים התרענו והמועצה לא פעלה. חתמו ודרשו טיפול מיידי.">
+<meta property="og:image" content="assets/accident-3.jpg">
+<meta property="og:locale" content="he_IL">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1a1d24; --ink-soft:#3f4753; --muted:#566070;
+  --bg:#faf8f5; --surface:#ffffff; --line:#e7e2da;
+  --red:#b3261e; --red-d:#8c1c16; --red-soft:#fbece9;
+  --amber:#b06f12; --amber-soft:#fdf3e2;
+  --green:#127049; --green-soft:#e8f5ee;
+  --charcoal:#252b35;
+  --shadow-sm:0 1px 2px rgba(20,25,35,.06),0 4px 14px rgba(20,25,35,.06);
+  --shadow-md:0 6px 28px rgba(20,25,35,.12);
+  --radius:16px; --maxw:1080px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Heebo","Arial",sans-serif; line-height:1.7; font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:"Rubik","Arial",sans-serif; line-height:1.18; margin:0}
+img{max-width:100%; display:block}
+a{color:var(--red-d)}
+p{margin:0 0 1rem}
+
+/* ---------- a11y ---------- */
+.skip-link{
+  position:absolute; top:-100%; right:0; background:var(--red); color:#fff;
+  padding:.75rem 1.5rem; font-weight:700; z-index:300; text-decoration:none;
+}
+.skip-link:focus{top:0; outline:3px solid var(--amber); outline-offset:2px}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid var(--amber); outline-offset:3px; border-radius:6px;
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important}
+}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+section{padding:62px 0}
+.eyebrow{display:inline-block; font-weight:700; color:var(--red); letter-spacing:.06em; font-size:.86rem; text-transform:none; margin-bottom:10px}
+.section-title{font-size:clamp(1.6rem,4vw,2.3rem); font-weight:800; color:var(--ink); margin-bottom:10px}
+.section-intro{color:var(--ink-soft); font-size:1.08rem; max-width:62ch; margin-bottom:30px}
+
+/* ---------- sticky header ---------- */
+header.site{
+  position:sticky; top:0; z-index:200; background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--line);
+}
+.bar{display:flex; align-items:center; gap:16px; min-height:62px}
+.brand{font-family:"Rubik"; font-weight:800; font-size:1.05rem; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:9px}
+.brand .dot{width:11px; height:11px; border-radius:50%; background:var(--red); box-shadow:0 0 0 4px var(--red-soft)}
+.bar .spacer{flex:1}
+.hcount{display:flex; align-items:center; gap:7px; font-weight:700; color:var(--green); font-size:.95rem}
+.hcount b{font-family:"Rubik"; font-size:1.05rem}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  font-family:"Rubik"; font-weight:700; font-size:1rem; text-decoration:none;
+  padding:.72rem 1.35rem; border-radius:999px; border:2px solid transparent; cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-primary{background:var(--red); color:#fff; box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--red-d); transform:translateY(-1px); box-shadow:var(--shadow-md)}
+.btn-ghost{background:#fff; color:var(--red-d); border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--red); transform:translateY(-1px)}
+.btn-lg{padding:.95rem 1.9rem; font-size:1.12rem}
+.btn-block{width:100%}
+
+/* ---------- hero ---------- */
+.hero{position:relative; color:#fff; overflow:hidden; isolation:isolate; padding:0}
+.hero .bgimg{position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover}
+.hero::after{content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg,rgba(20,18,22,.62),rgba(24,16,18,.82));}
+.hero .inner{max-width:var(--maxw); margin:0 auto; padding:84px 20px 70px}
+.hero .flag{display:inline-flex; align-items:center; gap:9px; background:rgba(179,38,30,.92);
+  color:#fff; font-weight:700; padding:.5rem 1rem; border-radius:999px; font-size:.95rem; margin-bottom:22px}
+.hero .flag .pulse{width:9px; height:9px; border-radius:50%; background:#fff; animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1; transform:scale(1)}50%{opacity:.4; transform:scale(.7)}}
+.hero h1{font-size:clamp(2rem,6vw,3.55rem); font-weight:800; max-width:18ch; text-shadow:0 2px 18px rgba(0,0,0,.3)}
+.hero .lede{font-size:clamp(1.05rem,2.4vw,1.32rem); max-width:54ch; margin:20px 0 30px; color:#f4eeec}
+.hero .cta-row{display:flex; flex-wrap:wrap; gap:14px; align-items:center}
+.hero .counter-badge{
+  display:flex; align-items:baseline; gap:10px; background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.28); border-radius:14px; padding:.7rem 1.15rem; backdrop-filter:blur(4px);
+}
+.hero .counter-badge .n{font-family:"Rubik"; font-weight:800; font-size:1.8rem; line-height:1}
+.hero .counter-badge .l{font-size:.92rem; color:#eadedb}
+
+/* ---------- stat strip ---------- */
+.strip{background:var(--charcoal); color:#fff}
+.strip .wrap{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding-top:30px; padding-bottom:30px}
+.strip .stat{text-align:center; padding:6px}
+.strip .stat .big{font-family:"Rubik"; font-weight:800; font-size:clamp(1.7rem,4vw,2.5rem); color:#fff}
+.strip .stat .lbl{color:#cdd3dc; font-size:.98rem; margin-top:4px}
+.strip .stat .big.red{color:#ff7a6e}
+
+/* ---------- timeline ---------- */
+.timeline{position:relative; margin:0; padding:0; list-style:none}
+.timeline::before{content:""; position:absolute; inset-inline-start:13px; top:6px; bottom:6px; width:2.5px; background:linear-gradient(var(--red),var(--amber)); border-radius:2px}
+.tl-item{position:relative; padding:0 42px 26px 0; }
+.tl-item:last-child{padding-bottom:0}
+.tl-item .marker{position:absolute; inset-inline-start:4px; top:3px; width:21px; height:21px; border-radius:50%;
+  background:#fff; border:3px solid var(--red); z-index:1}
+.tl-item.bad .marker{border-color:#9aa3af}
+.tl-item.now .marker{border-color:var(--red); background:var(--red); box-shadow:0 0 0 5px var(--red-soft)}
+.tl-date{font-family:"Rubik"; font-weight:700; color:var(--red-d); font-size:.95rem; margin-bottom:3px}
+.tl-item.bad .tl-date{color:var(--muted)}
+.tl-title{font-weight:700; font-size:1.12rem; margin-bottom:4px; color:var(--ink)}
+.tl-body{color:var(--ink-soft); font-size:1.02rem}
+.tl-quote{margin-top:8px; padding:10px 14px; background:var(--surface); border:1px solid var(--line);
+  border-inline-start:4px solid var(--amber); border-radius:10px; font-style:italic; color:var(--ink); font-size:.98rem}
+
+/* ---------- evidence ---------- */
+.gallery{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px}
+figure.ev{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm)}
+figure.ev img{width:100%; height:230px; object-fit:cover}
+figure.ev figcaption{padding:13px 16px; color:var(--ink-soft); font-size:.97rem}
+figure.ev figcaption b{color:var(--ink)}
+
+/* ---------- demands ---------- */
+.demands{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+.demand{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-sm); position:relative}
+.demand .ico{width:46px; height:46px; border-radius:12px; background:var(--red-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px}
+.demand .ico svg{width:26px; height:26px; stroke:var(--red); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.demand h3{font-size:1.18rem; font-weight:700; margin-bottom:7px}
+.demand p{color:var(--ink-soft); margin:0; font-size:1rem}
+.demand .num{position:absolute; inset-inline-end:18px; top:16px; font-family:"Rubik"; font-weight:800; font-size:1.5rem; color:var(--line)}
+
+/* ---------- letter ---------- */
+.letter-cta{background:linear-gradient(135deg,#fff,#fbf7f1); border:1px solid var(--line); border-radius:var(--radius); padding:30px; box-shadow:var(--shadow-sm); display:flex; flex-wrap:wrap; align-items:center; gap:22px; justify-content:space-between}
+.letter-cta .txt{max-width:60ch}
+.letter-cta h3{font-size:1.35rem; font-weight:700; margin-bottom:8px}
+.letter-cta p{color:var(--ink-soft); margin:0}
+
+/* ---------- sign form ---------- */
+.sign{background:var(--charcoal); color:#fff}
+.sign .card{background:#fff; color:var(--ink); border-radius:22px; box-shadow:var(--shadow-md); padding:34px; max-width:620px; margin:0 auto}
+.sign .countline{display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:8px}
+.sign .countline .n{font-family:"Rubik"; font-weight:800; font-size:2.6rem; color:var(--green); line-height:1}
+.sign .countline .l{color:var(--muted); font-weight:600}
+.progress{height:10px; background:#eee; border-radius:999px; overflow:hidden; margin:14px 0 26px}
+.progress .fill{height:100%; background:linear-gradient(90deg,var(--green),#3aa776); width:6%; transition:width .8s ease}
+.field{margin-bottom:16px}
+.field label{display:block; font-weight:700; margin-bottom:6px; font-size:.98rem}
+.field .req{color:var(--red)}
+.field input,.field select{
+  width:100%; padding:.8rem .9rem; border:2px solid var(--line); border-radius:11px; font:inherit; background:#fff; color:var(--ink);
+}
+.field input:focus,.field select:focus{border-color:var(--red); outline:none}
+.row2{display:grid; grid-template-columns:1.4fr 1fr; gap:12px}
+.checkrow{display:flex; gap:11px; align-items:flex-start; margin:6px 0 20px}
+.checkrow input{width:22px; height:22px; margin-top:3px; flex:none; accent-color:var(--red)}
+.checkrow label{font-weight:500; font-size:.98rem; color:var(--ink-soft)}
+.hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+.formnote{font-size:.86rem; color:var(--muted); text-align:center; margin-top:14px}
+.formmsg{margin-top:14px; padding:13px 16px; border-radius:11px; font-weight:600; display:none}
+.formmsg.ok{display:block; background:var(--green-soft); color:var(--green); border:1px solid #b9e2cd}
+.formmsg.err{display:block; background:var(--red-soft); color:var(--red-d); border:1px solid #f2c5c0}
+.share-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:22px}
+.btn-wa{background:#25D366; color:#08331c}
+.btn-wa:hover{background:#1eb858}
+
+/* ---------- footer ---------- */
+footer.site{background:#1b1f27; color:#cfd5de; padding:48px 0 30px; font-size:.96rem}
+footer.site a{color:#ffd9b0}
+footer .grid{display:grid; grid-template-columns:1.3fr 1fr; gap:30px; margin-bottom:24px}
+footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
+.accessibility-statement{background:#222732; border:1px solid #333b47; border-radius:12px; padding:20px 24px; max-width:760px}
+.accessibility-statement h3{font-size:1.05rem}
+.accessibility-statement p{margin:0 0 .6rem; color:#bcc4cf; font-size:.92rem}
+.foot-bottom{border-top:1px solid #333b47; padding-top:18px; color:#8e97a4; font-size:.85rem; text-align:center}
+
+@media (max-width:760px){
+  section{padding:46px 0}
+  .strip .wrap{grid-template-columns:1fr; gap:8px}
+  .row2{grid-template-columns:1fr}
+  footer .grid{grid-template-columns:1fr}
+  .letter-cta{flex-direction:column; align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="#"><span class="dot" aria-hidden="true"></span>בר יהודה בטוחה</a>
+    <span class="spacer"></span>
+    <span class="hcount" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <b id="count-header">—</b> חתמו
+    </span>
+    <a class="btn btn-primary" href="#sign">חתמו על העצומה</a>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <img class="bgimg" src="assets/accident-3.jpg" alt="" aria-hidden="true">
+    <div class="inner">
+      <span class="flag"><span class="pulse" aria-hidden="true"></span>23 ביוני 2026 · תאונה קשה ברחוב</span>
+      <h1 id="hero-title">חמש שנים התרענו. היום זה קרה ברחוב בר יהודה.</h1>
+      <p class="lede">תאונת דרכים קשה עם נפגעים אירעה היום בעיקול רחוב בר יהודה בקדימה — בדיוק במקום ועל הסכנה שעליהם התרענו בפני המועצה מאז 2021. מספיק. הגיע הזמן לפעול, לפני שיהיה מאוחר מדי.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#sign">הצטרפו וחתמו עכשיו</a>
+        <div class="counter-badge" role="status" aria-live="polite">
+          <span class="n" id="count-hero">—</span>
+          <span class="l">תושבים כבר חתמו<br>על הדרישה למועצה</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT STRIP -->
+  <section class="strip" aria-label="נתונים עיקריים" style="padding:0">
+    <div class="wrap">
+      <div class="stat"><div class="big red">5 שנים</div><div class="lbl">של התרעות בכתב ובעל-פה</div></div>
+      <div class="stat"><div class="big">4 דרישות</div><div class="lbl">בטיחות פשוטות וברורות</div></div>
+      <div class="stat"><div class="big red">0</div><div class="lbl">פעולות שבוצעו בשטח</div></div>
+    </div>
+  </section>
+
+  <!-- WHAT HAPPENED -->
+  <section aria-labelledby="story-title">
+    <div class="wrap">
+      <span class="eyebrow">מה קורה ברחוב שלנו</span>
+      <h2 class="section-title" id="story-title">רחוב מגורים צר שהפך למסלול מסוכן</h2>
+      <p class="section-intro">רחוב בר יהודה הוא רחוב צדדי וצר בלב שכונת מגורים — ובו גן ילדים ומרכז יום לקשישים. אך מדי יום חולפים בו רכבים במהירות מופרזת, בשני הכיוונים, בכביש שאינו רחב מספיק לשניהם.</p>
+      <ul style="columns:2; column-gap:34px; max-width:860px; color:var(--ink-soft); padding-inline-start:20px; line-height:1.9">
+        <li>בשעות הבוקר, כשהילדים יוצאים לגנים ולבתי-הספר, נהגים עולים עם רכביהם על המדרכות כדי לחלוף זה על פני זה.</li>
+        <li>בעיקול הרחוב שדה הראייה חסום לחלוטין משני הצדדים — נהגים פשוט לא רואים את הבא ממול.</li>
+        <li>נהיגה במהירות מסוכנת בכל שעות היום והלילה, ברחוב שמשחקים בו ילדים.</li>
+        <li>עומסי תנועה חריפים בשעות השיא, שמחמירים את הסיכון לכולם.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section style="background:var(--surface); border-block:1px solid var(--line)" aria-labelledby="tl-title">
+    <div class="wrap">
+      <span class="eyebrow">הכרונולוגיה</span>
+      <h2 class="section-title" id="tl-title">חמש שנים של התרעות — ואפס ביצוע</h2>
+      <p class="section-intro">זו אינה בקשה חדשה. המועצה כבר דנה בנושא, קיבלה החלטות רשמיות, וביקשה מאיתנו לאסוף חתימות — ועשינו זאת. ואז שתקה.</p>
+      <ol class="timeline">
+        <li class="tl-item">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">אוקטובר 2021</div>
+          <div class="tl-title">מכתב התרעה ראשון למועצה</div>
+          <div class="tl-body">תושבי הרחוב פונים בכתב ומתריעים על סכנה תחבורתית ממשית, ובכלל זה בעיקול. כבר אז ביקשנו חד-סטרי, פסי האטה ומראה.</div>
+        </li>
+        <li class="tl-item">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">7 במרץ 2022</div>
+          <div class="tl-title">פגישה במועצה + מצגת מפורטת</div>
+          <div class="tl-body">נציגי הרחוב מציגים את המפגעים בפני ראשת המועצה, מנכ"ל המועצה ומהנדס המועצה. מתקבלות החלטות רשמיות.</div>
+          <div class="tl-quote">"הנושאים שהועלו בישיבה יובאו בפני ועדת התנועה, על מנת לקדם את הטיפול בליקויים."</div>
+        </li>
+        <li class="tl-item">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">13 במרץ 2022</div>
+          <div class="tl-title">המועצה משיבה בכתב</div>
+          <div class="tl-body">אגף ההנדסה מאשר שהנושא מועבר לבחינת צוות מקצועי במסגרת "תכנית אב-תחבורה", ושפסי ההאטה, הצביעה והמראה יועלו בוועדת התנועה הקרובה.</div>
+        </li>
+        <li class="tl-item">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">2022</div>
+          <div class="tl-title">התושבים מילאו את חלקם</div>
+          <div class="tl-body">אספנו את חתימות דיירי הרחוב והגשנו אותן למועצה — בדיוק כפי שהתבקשנו בישיבה.</div>
+        </li>
+        <li class="tl-item bad">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">2022–2026</div>
+          <div class="tl-title">למעלה מארבע שנים — ואז, שתיקה</div>
+          <div class="tl-body">בשטח לא בוצע דבר. לא חד-סטרי, לא פסי האטה, לא מראה בעיקול.</div>
+        </li>
+        <li class="tl-item now">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="tl-date">23 ביוני 2026</div>
+          <div class="tl-title">התאונה שעליה התרענו</div>
+          <div class="tl-body">תאונת דרכים קשה עם נפגעים מתרחשת בעיקול הרחוב. בדיוק מה שחששנו ממנו, שנים מראש.</div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section aria-labelledby="ev-title">
+    <div class="wrap">
+      <span class="eyebrow">מהשטח</span>
+      <h2 class="section-title" id="ev-title">הראיות מדברות בעד עצמן</h2>
+      <p class="section-intro">תיעוד אמיתי מהרחוב — התאונה של היום, העיקול שחוסם את הראייה, והעומס המסוכן של כל בוקר.</p>
+      <div class="gallery">
+        <figure class="ev">
+          <img src="assets/accident-3.jpg" alt="רכב שהתהפך על צידו וחוסם את הכביש בעיקול רחוב בר יהודה, לצד רכב חונה, בתאונה מ-23 ביוני 2026" loading="lazy">
+          <figcaption><b>התאונה, היום.</b> רכב שהתהפך על צידו בעיקול הרחוב — בדיוק במוקד הסכנה.</figcaption>
+        </figure>
+        <figure class="ev">
+          <img src="assets/accident-1.jpg" alt="מבט רחב על זירת התאונה בעיקול: רכב הפוך ורכבים פגועים ליד הקיר המעוקל שחוסם את שדה הראייה" loading="lazy">
+          <figcaption><b>העיקול ה"עיוור".</b> הקיר המעוקל חוסם לחלוטין את שדה הראייה של הנהגים.</figcaption>
+        </figure>
+        <figure class="ev">
+          <img src="assets/accident-6.jpg" alt="שני רכבים עם נזק כבד ושברים פזורים על הכביש בזירת התאונה ברחוב בר יהודה" loading="lazy">
+          <figcaption><b>עוצמת הפגיעה.</b> נזק כבד ושברים פזורים על פני הכביש כולו.</figcaption>
+        </figure>
+        <figure class="ev">
+          <img src="assets/blindspot.png" alt="רכב חונה בתוך עיקול רחוב בר יהודה, כשגדרות וקירות גבוהים חוסמים את הראייה לשני הכיוונים" loading="lazy">
+          <figcaption><b>כך זה נראה בכל יום.</b> רכב בעיקול — והבא ממול פשוט לא נראה.</figcaption>
+        </figure>
+        <figure class="ev">
+          <img src="assets/morning.jpg" alt="עומס תנועה בשעת בוקר ברחוב צר; רכבים נדחקים זה מול זה ואחד מהם נוסע על אבני המדרכה" loading="lazy">
+          <figcaption><b>בוקר טיפוסי.</b> רכבים נדחקים, ואחד עולה על המדרכה — במקום שבו הולכים ילדים.</figcaption>
+        </figure>
+        <figure class="ev">
+          <img src="assets/map.png" alt="מפת רחוב בר יהודה בקדימה עם סימון מיקום העיקול המסוכן; בקרבת מקום גן ילדים ומרכז יום לקשישים" loading="lazy">
+          <figcaption><b>המיקום.</b> רחוב מגורים צדדי — עם גן ילדים ומרכז יום לקשישים ממש בסמוך.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMANDS -->
+  <section style="background:var(--surface); border-block:1px solid var(--line)" aria-labelledby="dm-title">
+    <div class="wrap">
+      <span class="eyebrow">מה אנחנו דורשים</span>
+      <h2 class="section-title" id="dm-title">ארבע דרישות פשוטות שמצילות חיים</h2>
+      <p class="section-intro">אלה אותם פתרונות שהמועצה עצמה כבר הכירה בנחיצותם — ושעדיין לא בוצעו.</p>
+      <div class="demands">
+        <div class="demand">
+          <span class="num" aria-hidden="true">1</span>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/></svg></span>
+          <h3>רחוב חד-סטרי</h3>
+          <p>הפיכת בר יהודה לרחוב חד-סטרי — בדיוק כפי שכבר נעשה ברחוב ההדסים המקביל.</p>
+        </div>
+        <div class="demand">
+          <span class="num" aria-hidden="true">2</span>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M5 12a3 3 0 016 0M13 12a3 3 0 016 0"/></svg></span>
+          <h3>פסי האטה</h3>
+          <p>התקנת פסי האטה לאורך הרחוב, ובדגש על העיקול — כדי לרסן את המהירות המסוכנת.</p>
+        </div>
+        <div class="demand">
+          <span class="num" aria-hidden="true">3</span>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
+          <h3>מראה בעיקול</h3>
+          <p>התקנת מראה פנורמית בעיקול, כדי לפתוח את שדה הראייה החסום של הנהגים.</p>
+        </div>
+        <div class="demand">
+          <span class="num" aria-hidden="true">4</span>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="8" rx="2"/><path d="M6 11V8a6 6 0 0112 0v3"/></svg></span>
+          <h3>הסדרת חנייה</h3>
+          <p>סימון כחול-לבן וחלוקת תווי תושב — כדי להפחית את העומס ולפנות את הכביש.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <section aria-labelledby="lt-title">
+    <div class="wrap">
+      <span class="eyebrow">המכתב הרשמי</span>
+      <h2 class="section-title" id="lt-title">המכתב שנשלח למועצה</h2>
+      <p class="section-intro">ניסחנו מכתב דרישה רשמי לראשת המועצה, למהנדס ולאגף ההנדסה — הנשען על ההיסטוריה המתועדת ועל התאונה של היום.</p>
+      <div class="letter-cta">
+        <div class="txt">
+          <h3>"החלטתם. הבטחתם. אנחנו מילאנו את חלקנו. אתם לא עשיתם דבר. היום זה קרה."</h3>
+          <p>המכתב המלא כולל את ציר הזמן, ארבע הדרישות, ודרישה לתשובה בכתב ולפגישת שטח דחופה תוך 14 יום.</p>
+        </div>
+        <a class="btn btn-primary btn-lg" href="letter.pdf" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M14 3v5h5M14 3l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+          קראו את המכתב המלא
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN -->
+  <section class="sign" id="sign" aria-labelledby="sign-title">
+    <div class="wrap">
+      <div class="card">
+        <div style="text-align:center; margin-bottom:6px">
+          <span class="eyebrow">הוסיפו את קולכם</span>
+          <h2 class="section-title" id="sign-title" style="font-size:1.7rem">חתמו על העצומה</h2>
+        </div>
+        <div class="countline" role="status" aria-live="polite">
+          <span class="n" id="count-form">—</span>
+          <span class="l">תושבים כבר חתמו</span>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="fill" id="progress-fill"></div></div>
+
+        <form id="sign-form" novalidate>
+          <div class="field">
+            <label for="f-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true">
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-street">רחוב <span class="req" aria-hidden="true">*</span></label>
+              <select id="f-street" name="street" required aria-required="true">
+                <option value="">בחרו רחוב…</option>
+                <option value="בר יהודה">בר יהודה</option>
+                <option value="הציבעוני">הציבעוני</option>
+                <option value="שבזי">שבזי</option>
+                <option value="ההדסים">ההדסים</option>
+                <option value="אחר (בשכונה)">אחר — בשכונה</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-house">מספר בית <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-house" name="house" type="text" inputmode="numeric" required aria-required="true">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-phone">טלפון <span style="color:var(--muted); font-weight:400">(לא חובה)</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+          </div>
+
+          <div class="checkrow">
+            <input id="f-consent" name="consent" type="checkbox" required aria-required="true">
+            <label for="f-consent">אני תושב/ת השכונה, מצטרף/ת לדרישה לטיפול מיידי במפגעי הבטיחות, ומאשר/ת שפרטיי יצורפו לעצומה המוגשת למועצה.</label>
+          </div>
+
+          <div class="hp" aria-hidden="true"><label>אל תמלאו שדה זה<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-submit">
+            הוסיפו אותי לעצומה
+          </button>
+          <div class="formmsg" id="form-msg" role="status" aria-live="assertive"></div>
+          <p class="formnote">איננו אוספים תעודות זהות. הפרטים משמשים אך ורק להגשת העצומה למועצה.</p>
+        </form>
+
+        <div class="share-row">
+          <a class="btn btn-wa" id="share-wa" href="#" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-2.8.7.7-2.7-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8.9-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2l-.1-.5-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>
+            שתפו בוואטסאפ
+          </a>
+          <button class="btn btn-ghost" id="share-copy" type="button">העתקת קישור</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h3>עצומת תושבי רחוב בר יהודה</h3>
+        <p>יוזמה של תושבי רחוב בר יהודה והרחובות הסמוכים בקדימה (הציבעוני · בר יהודה · שבזי · ההדסים), למען בטיחות ילדינו ותושבי השכונה.</p>
+        <p><strong>איש קשר:</strong> תום הגלעדי<br>
+        <strong>דוא"ל:</strong> <a href="mailto:tomhagiladi@gmail.com">tomhagiladi@gmail.com</a></p>
+      </div>
+      <div>
+        <div class="accessibility-statement">
+          <h3>הצהרת נגישות</h3>
+          <p>אתר זה עומד בדרישות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ותקן ישראלי ת"י 5568 המבוסס על WCAG 2.0 ברמה AA.</p>
+          <p>נתקלתם בבעיית נגישות? נשמח לסייע:</p>
+          <p><strong>רכז נגישות:</strong> תום הגלעדי · <a href="mailto:tomhagiladi@gmail.com">tomhagiladi@gmail.com</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      נבנה בידי תושבי השכונה · העצומה אינה מזוהה עם גורם פוליטי · הפרטים הנאספים משמשים אך ורק להגשת הדרישה למועצה האזורית קדימה-צורן.
+    </div>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+(function(){
+  "use strict";
+  var ENDPOINT = (window.SIGN_ENDPOINT || "").trim();
+  var BASE = (typeof window.SIGN_BASE === "number") ? window.SIGN_BASE : 0; // optional seed for historical signers
+  var GOAL = (typeof window.SIGN_GOAL === "number") ? window.SIGN_GOAL : 250;
+
+  var els = {
+    header: document.getElementById('count-header'),
+    hero: document.getElementById('count-hero'),
+    form: document.getElementById('count-form'),
+    fill: document.getElementById('progress-fill')
+  };
+  function setCount(n){
+    var v = (BASE + (n||0));
+    ['header','hero','form'].forEach(function(k){ if(els[k]) els[k].textContent = v.toLocaleString('he-IL'); });
+    var pct = Math.max(4, Math.min(100, Math.round((v/GOAL)*100)));
+    if(els.fill) els.fill.style.width = pct + '%';
+  }
+
+  // JSONP read (CORS-safe) for the live count
+  function loadCount(){
+    if(!ENDPOINT || ENDPOINT.indexOf('PASTE') !== -1){ setCount(0); return; }
+    var cb = 'jp_' + Math.floor(performance.now()*1000 % 1e9);
+    window[cb] = function(data){
+      try{ setCount((data && typeof data.count==='number') ? data.count : 0); }catch(e){}
+      delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s);
+    };
+    var s = document.createElement('script');
+    s.src = ENDPOINT + (ENDPOINT.indexOf('?')===-1?'?':'&') + 'action=count&callback=' + cb;
+    s.onerror = function(){ setCount(0); };
+    document.body.appendChild(s);
+  }
+
+  // Form submit
+  var form = document.getElementById('sign-form');
+  var msg = document.getElementById('form-msg');
+  var submitBtn = document.getElementById('sign-submit');
+  function showMsg(type, text){ msg.className = 'formmsg ' + type; msg.textContent = text; }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(form.website && form.website.value){ return; } // honeypot
+    var name = form.name.value.trim();
+    var street = form.street.value;
+    var house = form.house.value.trim();
+    if(!name || !street || !house){ showMsg('err','נא למלא שם, רחוב ומספר בית.'); return; }
+    if(!form.consent.checked){ showMsg('err','יש לאשר את ההסכמה כדי לחתום.'); return; }
+
+    if(!ENDPOINT || ENDPOINT.indexOf('PASTE') !== -1){
+      showMsg('err','מנגנון החתימות בהשלמה אחרונה ויפעל בקרוב מאוד. תודה על הסבלנות!');
+      return;
+    }
+
+    submitBtn.disabled = true; submitBtn.textContent = 'רגע, שולח…';
+    var payload = { name:name, street:street, house:house, phone:form.phone.value.trim(), ts:new Date().toISOString() };
+
+    fetch(ENDPOINT, { method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) })
+    .then(function(){
+      form.reset();
+      showMsg('ok','תודה ' + name.split(' ')[0] + '! חתימתך נוספה לעצומה. שתפו עם השכנים כדי שנהיה חזקים יותר 💪');
+      setTimeout(loadCount, 1200); setTimeout(loadCount, 3500);
+    })
+    .catch(function(){
+      showMsg('err','אירעה תקלה זמנית. נסו שוב בעוד רגע, או פנו אלינו במייל.');
+    })
+    .finally(function(){ submitBtn.disabled=false; submitBtn.textContent='הוסיפו אותי לעצומה'; });
+  });
+
+  // Share
+  var shareText = 'תאונה קשה ברחוב בר יהודה בקדימה — חמש שנים התרענו והמועצה לא פעלה. חתמו על העצומה ודרשו טיפול מיידי:';
+  var pageUrl = window.location.href.split('#')[0];
+  var wa = document.getElementById('share-wa');
+  wa.href = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
+  document.getElementById('share-copy').addEventListener('click', function(){
+    var btn = this;
+    navigator.clipboard.writeText(pageUrl).then(function(){
+      btn.textContent = 'הקישור הועתק ✓';
+      setTimeout(function(){ btn.textContent='העתקת קישור'; }, 2200);
+    }).catch(function(){ btn.textContent = pageUrl; });
+  });
+
+  // Wrap any tables for a11y (none expected, but per checklist)
+  document.querySelectorAll('table').forEach(function(t){
+    var w=document.createElement('div'); w.className='table-scroll-wrapper'; w.setAttribute('tabindex','0');
+    w.setAttribute('role','region'); w.setAttribute('aria-label','טבלה נגללת');
+    t.parentNode.insertBefore(w,t); w.appendChild(t);
+  });
+
+  loadCount();
+})();
+</script>
+</body>
+</html>
