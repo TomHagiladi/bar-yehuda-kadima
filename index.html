@@ -29,7 +29,7 @@
   --radius:16px; --maxw:1080px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth; overflow-x:clip}
+html{scroll-behavior:smooth; overflow-x:hidden; width:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:"Heebo","Arial",sans-serif; line-height:1.7; font-size:17px;
@@ -67,10 +67,12 @@ header.site{
   position:sticky; top:0; z-index:200; background:rgba(255,255,255,.92);
   backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--line);
 }
-.bar{display:flex; align-items:center; gap:16px; min-height:62px}
-.brand{font-family:"Rubik"; font-weight:800; font-size:1.05rem; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:9px}
-.brand .dot{width:11px; height:11px; border-radius:50%; background:var(--red); box-shadow:0 0 0 4px var(--red-soft)}
-.bar .spacer{flex:1}
+.bar{display:flex; align-items:center; gap:14px; min-height:62px; min-width:0}
+.brand{font-family:"Rubik"; font-weight:800; font-size:1.05rem; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:9px; min-width:0; flex-shrink:1}
+.brand .brand-txt{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0}
+.brand .dot{width:11px; height:11px; border-radius:50%; background:var(--red); box-shadow:0 0 0 4px var(--red-soft); flex:none}
+.bar .spacer{flex:1; min-width:0}
+.bar .btn{flex:none}
 .hcount{display:flex; align-items:center; gap:7px; font-weight:700; color:var(--green); font-size:.95rem}
 .hcount b{font-family:"Rubik"; font-size:1.05rem}
 .btn{
@@ -131,14 +133,14 @@ header.site{
   border-inline-start:4px solid var(--amber); border-radius:10px; font-style:italic; color:var(--ink); font-size:.98rem}
 
 /* ---------- evidence ---------- */
-.gallery{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px}
+.gallery{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:18px}
 figure.ev{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm)}
 figure.ev img{width:100%; height:230px; object-fit:cover}
 figure.ev figcaption{padding:13px 16px; color:var(--ink-soft); font-size:.97rem}
 figure.ev figcaption b{color:var(--ink)}
 
 /* ---------- demands ---------- */
-.demands{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+.demands{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr)); gap:18px}
 .demand{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-sm); position:relative}
 .demand .ico{width:46px; height:46px; border-radius:12px; background:var(--red-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px}
 .demand .ico svg{width:26px; height:26px; stroke:var(--red); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
@@ -220,7 +222,7 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
 
 <header class="site">
   <div class="wrap bar">
-    <a class="brand" href="#"><span class="dot" aria-hidden="true"></span>סכנה תחבורתית · רחוב בר יהודה</a>
+    <a class="brand" href="#"><span class="dot" aria-hidden="true"></span><span class="brand-txt">סכנה תחבורתית · רחוב בר יהודה</span></a>
     <span class="spacer"></span>
     <span class="hcount" aria-hidden="true">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -349,8 +351,8 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
           <figcaption><b>שדה ראייה חסום.</b> רכבים הבאים משני הכיוונים אינם רואים זה את זה עד הרגע האחרון.</figcaption>
         </figure>
         <figure class="ev">
-          <img src="assets/morning.jpg" alt="שעת בוקר ברחוב צר; רכב עולה על אבני המדרכה כדי לחלוף, במקום שבו הולכים ילדים" loading="lazy">
-          <figcaption><b>בוקר טיפוסי.</b> בתמונה נראה רכב אחד על המדרכה — אבל זו השגרה: כדי לעבור את הרחוב הצר, רכבים עולים על המדרכות שוב ושוב, ממש במקום שבו הולכים ילדים.</figcaption>
+          <img src="assets/morning.jpg" alt="שעת בוקר ברחוב צר; שני רכבים עולים על אבני המדרכה כדי לחלוף, במקום שבו הולכים ילדים" loading="lazy">
+          <figcaption><b>בוקר טיפוסי.</b> בתמונה נראים שני רכבים על המדרכה — וזו השגרה: כדי לעבור את הרחוב הצר, רכבים עולים על המדרכות שוב ושוב, ממש במקום שבו הולכים ילדים.</figcaption>
         </figure>
         <figure class="ev">
           <img src="assets/map.png" alt="מפת רחוב בר יהודה בקדימה עם סימון מיקום העיקול המסוכן; בשכונה נמצא גם גן שעשועים לילדים" loading="lazy">
