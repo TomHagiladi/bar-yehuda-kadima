@@ -6,7 +6,7 @@
    הדבק אותה כאן, בין הגרשיים, במקום הטקסט שכתוב עכשיו:
    =========================================================== */
 
-window.SIGN_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+window.SIGN_ENDPOINT = "https://script.google.com/macros/s/AKfycbw5WQH6OdJuT3PCHKG1KLZJY28PowCiYSYgMLt8G4qN1QuitBW7gpdZDwIcvqfZnfzXsg/exec";
 
 /* מספר חותמים היסטורי להצגה כבסיס (החתימות שכבר נאספו פיזית).
    אפשר להשאיר 0 כדי להתחיל את הספירה הדיגיטלית מאפס. */
