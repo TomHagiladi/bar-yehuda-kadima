@@ -510,7 +510,10 @@ footer h3{color:#fff; font-size:1.1rem; margin-bottom:10px}
 <script>
 (function(){
   "use strict";
-  var ENDPOINT = (window.SIGN_ENDPOINT || "").trim();
+  var _cfg = (window.SIGN_ENDPOINT || "").trim();
+  var ENDPOINT = (!_cfg || _cfg.indexOf('PASTE') !== -1)
+    ? "https://script.google.com/macros/s/AKfycbw5WQH6OdJuT3PCHKG1KLZJY28PowCiYSYgMLt8G4qN1QuitBW7gpdZDwIcvqfZnfzXsg/exec"
+    : _cfg;
   var BASE = (typeof window.SIGN_BASE === "number") ? window.SIGN_BASE : 0; // optional seed for historical signers
   var GOAL = (typeof window.SIGN_GOAL === "number") ? window.SIGN_GOAL : 250;
 
