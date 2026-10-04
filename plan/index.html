@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בר יהודה חד-סטרי — המועצה מחכה לחתימה של בית האב שלכם</title>
+<meta name="description" content="המועצה המקומית קדימה-צורן הכינה תכנית להפוך את רחוב בר יהודה לחד-סטרי ולהסדיר בו חניה. התכנית תתקדם רק אם רוב בתי האב יסכימו. חתימה אחת מכל בית אב.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="בר יהודה חד-סטרי: המועצה מחכה לחתימה של בית האב שלכם">
+<meta property="og:description" content="תכנית המועצה להפיכת בר יהודה לחד-סטרי והסדרת חניה. חתימה אחת מכל בית אב — דקה אחת.">
+<meta property="og:image" content="https://tomhagiladi.github.io/bar-yehuda-kadima/plan/og.jpg">
+<meta property="og:url" content="https://tomhagiladi.github.io/bar-yehuda-kadima/plan/">
+<meta property="og:locale" content="he_IL">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
+
+<style>
+:root{
+  --ink:#1a1d24; --ink-soft:#3f4753; --muted:#566070;
+  --bg:#faf8f5; --surface:#ffffff; --line:#e7e2da;
+  --red:#b3261e; --red-d:#8c1c16; --red-soft:#fbece9;
+  --amber:#b06f12; --amber-soft:#fdf3e2;
+  --green:#127049; --green-d:#0c5636; --green-soft:#e8f5ee;
+  --blue:#1d4fa3; --blue-soft:#e9f0fb;
+  --shadow:0 1px 2px rgba(20,25,35,.06),0 6px 22px rgba(20,25,35,.07);
+  --radius:16px; --maxw:1200px; --gut:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; overflow-x:hidden}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Heebo",Arial,sans-serif; font-size:18px; line-height:1.75;
+  overflow-x:clip; overflow-wrap:break-word; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Rubik",Arial,sans-serif; line-height:1.25; margin:0 0 .6em}
+h1{font-size:clamp(1.9rem,4.6vw,3.1rem); font-weight:900; letter-spacing:-.01em}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem); font-weight:800}
+h3{font-size:1.18rem; font-weight:700}
+p{margin:0 0 1em}
+a{color:var(--blue)}
+img{max-width:100%; height:auto; display:block}
+ul,ol{margin:0 0 1em; padding-inline-start:1.3em}
+li{margin:.35em 0}
+strong{color:#0f1218}
+
+/* ---------- a11y ---------- */
+.skip-link{position:absolute; top:-100%; right:0; background:var(--red); color:#fff; padding:.75rem 1.5rem; font-weight:700; z-index:3000; text-decoration:none}
+.skip-link:focus{top:0; outline:3px solid var(--amber); outline-offset:2px}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{
+  outline:3px solid var(--amber); outline-offset:3px; border-radius:6px;
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important}
+}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gut)}
+section{padding:48px 0}
+section + section{border-top:1px solid var(--line)}
+.alt{background:var(--surface)}
+.grid2{display:grid; gap:28px}
+.section-lead{font-size:1.08rem; color:var(--ink-soft); max-width:68ch}
+
+.topbar{background:var(--ink); color:#fff; font-size:.95rem; position:relative; z-index:20}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:60px}
+.topbar b{font-family:"Rubik",Arial,sans-serif; font-weight:700}
+
+/* ---------- CTA buttons ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:.55em; min-height:52px; padding:.7rem 1.5rem; border-radius:12px; font:700 1.08rem "Rubik",Arial,sans-serif; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s}
+.btn-ghost{background:transparent; color:var(--ink); border-color:#c9c2b6}
+.btn-ghost:hover{background:#f1ede6}
+.btn-green{background:var(--green); color:#fff}
+.btn-green:hover{background:var(--green-d)}
+.btn[disabled]{opacity:.6; cursor:not-allowed}
+.btn-cta{
+  background:linear-gradient(180deg,#c9332a 0%,#a8231c 100%); color:#fff;
+  font:800 1.3rem/1.2 "Rubik",Arial,sans-serif; min-height:64px; padding:.85rem 2rem; border-radius:16px;
+  box-shadow:0 10px 26px rgba(179,38,30,.38), inset 0 -3px 0 rgba(0,0,0,.18);
+}
+.btn-cta:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(179,38,30,.45), inset 0 -3px 0 rgba(0,0,0,.18); background:linear-gradient(180deg,#b82b23 0%,#921d17 100%)}
+.btn-cta .tick{display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#fff; color:var(--red); font:900 1.2rem/1 Arial,sans-serif; flex:none}
+.btn-cta.sm{min-height:48px; font-size:1.05rem; padding:.5rem 1.2rem; border-radius:12px}
+.btn-cta.sm .tick{width:26px; height:26px; font-size:.95rem}
+.btn-cta.pulse{animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 10px 26px rgba(179,38,30,.38),0 0 0 0 rgba(201,51,42,.55)}70%{box-shadow:0 10px 26px rgba(179,38,30,.38),0 0 0 18px rgba(201,51,42,0)}100%{box-shadow:0 10px 26px rgba(179,38,30,.38),0 0 0 0 rgba(201,51,42,0)}}
+.btns{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+
+.cta-band{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px 28px; background:var(--ink); color:#fff; border-radius:22px; padding:26px 28px; margin-top:34px; box-shadow:var(--shadow)}
+.cta-band strong{color:#fff}
+.cta-band .t{font:800 1.35rem/1.35 "Rubik",Arial,sans-serif}
+.cta-band .s{display:block; font:400 1rem/1.5 "Heebo",Arial,sans-serif; color:#d8dbe2; margin-top:4px}
+.cta-band.red{background:var(--red-soft); color:var(--ink); border:2px solid #f0c3bd}
+.cta-band.red .s{color:var(--ink-soft)}
+
+.sticky-cta{position:fixed; inset-inline:0; bottom:0; z-index:1500; padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(26,29,36,.94); box-shadow:0 -6px 20px rgba(0,0,0,.25); transform:translateY(110%); transition:transform .25s}
+.sticky-cta.show{transform:none}
+.sticky-cta .btn-cta{width:100%; min-height:56px; font-size:1.2rem}
+
+/* ---------- hero ---------- */
+.hero{padding:40px 0 44px; background:radial-gradient(1200px 400px at 85% -10%, #fbe9e4 0, transparent 60%), var(--bg)}
+.kicker{display:inline-block; background:var(--amber-soft); color:#7a4c0a; font-weight:700; font-size:.95rem; padding:.25rem .85rem; border-radius:999px; margin-bottom:14px}
+.lead{font-size:1.16rem; color:var(--ink-soft)}
+.counter{display:flex; align-items:center; gap:16px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 20px; margin:22px 0}
+.counter .num{font-family:"Rubik",Arial,sans-serif; font-size:2.8rem; font-weight:900; color:var(--green); line-height:1; min-width:2ch; text-align:center}
+.counter .txt{font-size:1.02rem; color:var(--ink-soft)}
+.counter .txt b{display:block; color:var(--ink); font-size:1.15rem}
+.hero-text{max-width:900px}
+
+/* ---------- timeline ---------- */
+.tl{list-style:none; padding:0; margin:0; border-inline-start:3px solid var(--line)}
+.tl li{position:relative; padding:0 22px 18px 0; margin:0}
+.tl li::before{content:""; position:absolute; right:-9px; top:.55em; width:15px; height:15px; border-radius:50%; background:var(--surface); border:3px solid var(--red)}
+.tl li.now::before{background:var(--green); border-color:var(--green)}
+.tl .when{display:block; font-weight:700; color:var(--red-d); font-size:.98rem}
+.tl li.now .when{color:var(--green)}
+
+/* ---------- changes ---------- */
+.changes{list-style:none; padding:0; counter-reset:c; display:grid; gap:14px; margin:0 0 8px}
+.changes li{counter-increment:c; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:0; display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:start; box-shadow:var(--shadow)}
+.changes li::before{content:counter(c); width:40px; height:40px; border-radius:50%; background:var(--blue); color:#fff; font:800 1.15rem "Rubik",Arial,sans-serif; display:flex; align-items:center; justify-content:center}
+.changes b{display:block; font-family:"Rubik",Arial,sans-serif; font-size:1.12rem}
+.note{background:var(--blue-soft); border-inline-start:5px solid var(--blue); border-radius:10px; padding:12px 16px; margin:16px 0}
+.note.red{background:var(--red-soft); border-color:var(--red)}
+.note.amber{background:var(--amber-soft); border-color:var(--amber)}
+
+/* ---------- figures ---------- */
+figure{margin:20px 0}
+figcaption{font-size:.95rem; color:var(--muted); margin-top:8px}
+.plan-fig a.zoom{display:block; border-radius:14px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:#fff}
+.links{display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:8px; font-size:.98rem}
+.annot{position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow)}
+.pin{position:absolute; transform:translate(-50%,-50%); width:34px; height:34px; border-radius:50%; background:#fff; color:var(--ink); border:3px solid var(--ink); font:800 1.05rem/28px "Rubik",Arial,sans-serif; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.pin.p-red{background:var(--red); color:#fff; border-color:#fff}
+.pin.p-dir{background:var(--blue); color:#fff; border-color:#fff}
+.pin.p-stop{background:#111; color:#fff; border-color:#fff}
+.keys{list-style:none; padding:0; margin:12px 0 0; display:grid; gap:10px}
+.keys li{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center; margin:0}
+.keys .pin{position:static; transform:none; display:inline-block}
+.closeups{display:grid; gap:24px}
+.closeups figure{margin:0}
+
+.legend{list-style:none; padding:0; display:grid; gap:12px; margin:16px 0}
+.legend li{display:grid; grid-template-columns:76px 1fr; gap:14px; align-items:center; margin:0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+.sw{height:42px; border-radius:6px; background:#6b6f76; position:relative; overflow:hidden}
+.sw.park::after{content:""; position:absolute; inset:9px 8px; border:3px solid #fff; border-radius:2px}
+.sw.redwhite{background:#9aa0a6}
+.sw.redwhite::after{content:""; position:absolute; left:0; right:0; top:15px; height:10px; background:repeating-linear-gradient(90deg,#d7261e 0 12px,#fff 12px 24px)}
+.sw.arrow::after{content:"\2192"; position:absolute; inset:0; color:#fff; font:800 34px/42px Arial,sans-serif; text-align:center}
+.sw.noentry{background:#fff; border:1px solid var(--line)}
+.sw.noentry::before{content:""; position:absolute; top:4px; left:50%; width:34px; height:34px; margin-left:-17px; border-radius:50%; background:#d7261e}
+.sw.noentry::after{content:""; position:absolute; top:18px; left:50%; width:22px; height:6px; margin-left:-11px; background:#fff}
+.sw.boundary{background:#fff; border:1px solid var(--line)}
+.sw.boundary::after{content:""; position:absolute; left:4px; right:4px; top:9px; border-top:3px dashed #e0322a}
+
+.photos{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.photos img{border-radius:12px; aspect-ratio:4/3; object-fit:cover; width:100%}
+
+/* ---------- rules ---------- */
+.rules{list-style:none; padding:0; display:grid; gap:10px; margin:0}
+.rules li{display:grid; grid-template-columns:36px 1fr; gap:12px; align-items:start; margin:0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+.ic{width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font:800 1.15rem Arial,sans-serif; color:#fff}
+.ic.yes{background:var(--green)}
+.ic.no{background:var(--red)}
+.define{background:var(--ink); color:#fff; border-radius:14px; padding:14px 18px; margin:0 0 16px; font-size:1.05rem}
+.define strong{color:#fff}
+.fields{display:flex; flex-wrap:wrap; gap:10px; list-style:none; padding:0}
+.fields li{background:var(--ink); color:#fff; border-radius:999px; padding:.3rem 1rem; font-weight:700; margin:0}
+.again{background:linear-gradient(135deg,#fff4dc 0%,#ffe9c2 100%); border:3px solid #e2a63b; border-radius:20px; padding:24px 24px 22px; margin-top:22px; box-shadow:0 10px 28px rgba(176,111,18,.18)}
+.again h3{font-size:clamp(1.45rem,3vw,1.9rem); font-weight:900; color:#5c3a06; margin:0 0 8px}
+.again p{font-size:clamp(1.12rem,2.2vw,1.3rem); line-height:1.6; color:#3b2604; margin:0 0 16px}
+.again p strong{color:#3b2604; background:#fff3; box-shadow:inset 0 -.45em 0 #f6cf7d}
+
+/* ---------- form ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px}
+.field{margin-bottom:18px}
+.field > label,.field .lbl{display:block; font-weight:700; margin-bottom:6px}
+.hint{display:block; font-size:.93rem; color:var(--muted); margin-top:4px}
+input[type=text],select,textarea{width:100%; min-height:52px; font:inherit; font-size:1.05rem; padding:.55rem .8rem; border:2px solid #b9b2a6; border-radius:10px; background:#fff; color:var(--ink)}
+textarea{min-height:120px; resize:vertical; line-height:1.6}
+input[type=text]:focus,select:focus,textarea:focus{border-color:var(--blue)}
+[aria-invalid=true]{border-color:var(--red)!important; background:#fffafa}
+.row2{display:grid; grid-template-columns:1fr; gap:0 16px}
+.other{margin-top:10px}
+.other label{display:block; font-weight:500; margin-bottom:4px}
+.check{display:grid; grid-template-columns:28px 1fr; gap:10px; align-items:start; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:12px}
+.check input{width:24px; height:24px; margin:3px 0 0; accent-color:var(--green)}
+fieldset{border:0; padding:0; margin:0 0 18px; min-width:0}
+legend{font-weight:700; margin-bottom:8px; padding:0}
+.stance{display:grid; gap:10px}
+.opt{display:grid; grid-template-columns:28px 1fr; gap:10px; align-items:start; border:2px solid var(--line); border-radius:12px; padding:12px 14px; cursor:pointer; background:#fff}
+.opt input{width:22px; height:22px; margin:3px 0 0; accent-color:var(--green)}
+.opt b{display:block; font-family:"Rubik",Arial,sans-serif}
+.opt small{display:block; color:var(--muted); font-size:.92rem}
+.opt:has(input:checked){border-color:var(--green); background:var(--green-soft)}
+.opt.obj:has(input:checked){border-color:var(--amber); background:var(--amber-soft)}
+.objpanel{border:2px dashed #e2a63b; border-radius:12px; padding:14px 16px; background:#fffaf0; margin:-6px 0 18px}
+.objpanel .topics{display:grid; gap:8px; margin-bottom:12px}
+.objpanel .topics label{display:grid; grid-template-columns:26px 1fr; gap:8px; align-items:start; font-weight:500}
+.objpanel .topics input{width:20px; height:20px; margin:4px 0 0; accent-color:var(--amber)}
+.picked{display:none; align-items:center; gap:10px; flex-wrap:wrap; background:var(--blue-soft); border:1px solid #c7d6f2; border-radius:10px; padding:8px 12px; margin:-6px 0 14px; font-size:.98rem}
+.picked.show{display:flex}
+.picked button{background:none; border:0; color:var(--blue); text-decoration:underline; font:inherit; cursor:pointer; min-height:36px}
+.status{margin-top:14px; border-radius:10px; padding:12px 16px; display:none}
+.status.show{display:block}
+.status.ok{background:var(--green-soft); border:1px solid #a9d9bf; color:#0b3d27}
+.status.warn{background:var(--amber-soft); border:1px solid #efd3a6; color:#5c3a06}
+.status.err{background:var(--red-soft); border:1px solid #f0c3bd; color:#6d150f}
+.inline-msg{display:none; margin-top:8px; font-size:.98rem; border-radius:8px; padding:8px 12px; background:var(--amber-soft); color:#5c3a06}
+.inline-msg.show{display:block}
+.hp{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+.done{display:none; text-align:center}
+.done.show{display:block}
+.done .big{font-size:3rem; line-height:1}
+.closed{display:none}
+.closed.show{display:block}
+.submit-btn{width:100%; min-height:62px; font-size:1.25rem}
+
+/* ---------- map ---------- */
+.sign-grid{display:grid; gap:24px; align-items:start}
+.mapcard h3{margin-bottom:.3em}
+#map{height:440px; border-radius:14px; border:1px solid var(--line); z-index:1}
+.maplegend{display:flex; flex-wrap:wrap; gap:6px 18px; margin:10px 0; font-size:.95rem; list-style:none; padding:0}
+.maplegend li{display:flex; align-items:center; gap:8px; margin:0}
+.dot{width:16px; height:16px; border-radius:50%; display:inline-block; flex:none}
+.dot.no{background:#fff; border:2px solid #5b6270}
+.dot.un{background:#fff; border:2px dashed #5b6270}
+.dot.yes{background:var(--green); border:2px solid #fff; box-shadow:0 0 0 1px var(--green)}
+.ln{width:30px; height:5px; border-radius:3px; display:inline-block; flex:none}
+.ln.prop{background:var(--red)}
+.ln.ex{background:repeating-linear-gradient(90deg,#1d4fa3 0 7px,transparent 7px 11px)}
+.hm{width:12px; height:12px; border-radius:50%; background:#fff; border:2px solid #5b6270; box-shadow:0 1px 2px rgba(0,0,0,.35); cursor:pointer}
+.hm.unnum{border-style:dashed; border-color:#3f4753}
+.hm.is-signed{width:21px; height:21px; margin:-4.5px 0 0 -4.5px; background:var(--green); border:2px solid #fff; border-style:solid; color:#fff; font:800 13px/18px Arial,sans-serif; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.45)}
+.hm.is-signed::after{content:"\2713"}
+.dir-arrow{color:var(--red); font:900 20px/20px Arial,sans-serif; text-shadow:0 0 3px #fff,0 0 3px #fff; text-align:center}
+.leaflet-container{font-family:"Heebo",Arial,sans-serif}
+.leaflet-popup-content{direction:rtl; text-align:right; font-size:15px; line-height:1.55; margin:12px 14px}
+.leaflet-popup-content .pbtn{display:block; width:100%; margin-top:8px; min-height:42px; padding:.35rem .9rem; border:0; border-radius:10px; background:var(--red); color:#fff; font:800 15px "Rubik",Arial,sans-serif; cursor:pointer}
+.leaflet-popup-content small{display:block; color:var(--muted); font-size:13px; margin-top:6px}
+table{width:100%; border-collapse:collapse; background:var(--surface); font-size:1rem}
+th,td{border:1px solid var(--line); padding:9px 12px; text-align:right}
+th{background:#f1ede6}
+td.n{font-weight:700; color:var(--green); text-align:center; width:30%}
+.table-scroll-wrapper{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; margin:1rem 0; border-radius:8px}
+details{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px 16px; margin-top:14px}
+summary{cursor:pointer; font-weight:700; min-height:44px; display:flex; align-items:center}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink); color:#e9ebef; padding:40px 0 60px; font-size:.98rem}
+footer a{color:#cfe0ff}
+footer h2{font-size:1.25rem; color:#fff}
+footer strong{color:#fff}
+.accessibility-statement{background:#252a33; border:1px solid #3a404c; border-radius:10px; padding:1.2rem 1.4rem; margin-top:1.6rem; max-width:820px}
+.accessibility-statement h2{font-size:1.1rem}
+
+/* ---------- breakpoints ---------- */
+@media (min-width:768px){
+  :root{--gut:28px}
+  section{padding:64px 0}
+  .row2{grid-template-columns:1fr 1fr}
+  .card{padding:28px}
+  .legend{grid-template-columns:1fr 1fr}
+  .changes{grid-template-columns:1fr 1fr}
+  .cta-band{padding:30px 36px}
+}
+@media (min-width:1024px){
+  :root{--gut:40px}
+  .hero{padding:64px 0 72px}
+  .hero .lead{font-size:1.25rem}
+  .hero .counter{display:inline-flex; margin-inline-end:16px; vertical-align:middle}
+  .hero .btns{display:inline-flex; vertical-align:middle}
+  .tl{display:grid; grid-template-columns:repeat(4,1fr); border:0; border-top:3px solid var(--line); gap:22px}
+  .tl li{padding:22px 0 0}
+  .tl li::before{top:-10px; right:0}
+  .legend{grid-template-columns:repeat(4,1fr)}
+  .legend li{grid-template-columns:1fr; text-align:center; justify-items:center}
+  .legend .sw{width:96px}
+  .closeups{grid-template-columns:1.65fr 1fr}
+  .why-grid{grid-template-columns:1fr 1fr; gap:40px; align-items:start}
+  .rules-grid{grid-template-columns:1.1fr 1fr; gap:40px; align-items:start}
+  .sign-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:32px}
+  .mapcard{position:sticky; top:16px}
+  #map{height:min(72vh,640px)}
+}
+@media (max-width:1023px){
+  body{padding-bottom:84px}
+}
+@media (min-width:1024px){
+  .sticky-cta{display:none}
+}
+@media (max-width:480px){
+  body{font-size:17px}
+  .photos{grid-template-columns:1fr}
+  .pin{width:28px; height:28px; font-size:.95rem; line-height:22px; border-width:2px}
+  .counter .num{font-size:2.3rem}
+  .btns .btn,.cta-band .btn{width:100%}
+  .btn-cta{font-size:1.18rem; padding:.8rem 1.1rem}
+  .topbar .t-long{display:none}
+  .topbar .btn-cta.sm{white-space:nowrap; font-size:.95rem; padding:.4rem .8rem; gap:.4em}
+  .cta-band{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <span><b>רחוב בר יהודה</b><span class="t-long"> · קדימה · עדכון לתושבים</span></span>
+    <a class="btn btn-cta sm" href="#sign" data-cta><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- ===== פתיח ===== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-text">
+        <span class="kicker">עדכון לתושבי השכונה · 4 באוקטובר 2026</span>
+        <h1 id="hero-title">המועצה מוכנה להפוך את בר יהודה לחד&#8209;סטרי. עכשיו זה תלוי בנו.</h1>
+        <p class="lead">המועצה המקומית קדימה-צורן הכינה תכנית להפוך את המשך רחוב בר יהודה לחד-סטרי ולהסדיר בו את החניה.
+          התכנית תתקדם רק אם רוב בתי האב ברחובות הסמוכים יחתמו שהם מסכימים. <strong>חתימה אחת מכל בית אב — וזה קורה.</strong></p>
+
+        <div class="counter" role="status" aria-live="polite">
+          <span class="num" id="count">—</span>
+          <span class="txt"><b>בתי אב כבר חתמו על התכנית</b>כל בית אב נספר פעם אחת</span>
+        </div>
+
+        <div class="btns">
+          <a class="btn btn-cta pulse" href="#sign" data-cta id="heroCta"><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+          <a class="btn btn-ghost" href="#changes">מה בדיוק משתנה?</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== איך הגענו לכאן ===== -->
+  <section class="alt" aria-labelledby="tl-title">
+    <div class="wrap">
+      <h2 id="tl-title">איך הגענו לכאן</h2>
+      <ol class="tl">
+        <li><span class="when">יוני 2026</span>תאונה קשה בעיקול הרחוב: רכב התהפך, באותה נקודה שעליה התרענו בפני המועצה במשך שנים.</li>
+        <li><span class="when">יוני 2026</span>תושבי הרחוב שלחו למועצה מכתב דרישה ואספו חתימות.</li>
+        <li><span class="when">ספטמבר 2026</span>פגישה של נציג התושבים עם צוות ועדת התנועה של המועצה.</li>
+        <li class="now"><span class="when">4 באוקטובר 2026 — עכשיו</span>המועצה שלחה תכנית מסודרת, והודיעה שתקדם אותה אם תהיה הסכמה רחבה של תושבי הרחובות הקשורים.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== מה המועצה מציעה ===== -->
+  <section id="changes" aria-labelledby="ch-title">
+    <div class="wrap">
+      <h2 id="ch-title">מה המועצה מציעה — ארבעה שינויים</h2>
+      <ol class="changes">
+        <li><div><b>חד-סטרי מרחוב הצבעוני ועד כיכר שבזי</b>
+          המקטע מרחוב הצבעוני ועד הכיכר ברחוב שבזי (כיכר שבזי–לוע הארי) יהפוך לחד-סטרי. זה המשך ישיר לקטע הראשון של בר יהודה, שהפך לחד-סטרי לפני כשנתיים. הנסיעה תהיה בכיוון אחד: מהצבעוני לכיוון הכיכר.</div></li>
+        <li><div><b>חניה מסודרת בצד הדרומי — בתחילת הקטע</b>
+          בחלק הראשון של הקטע, אחרי רחוב הצבעוני, יסומנו מקומות חניה בצד הדרומי של הרחוב.</div></li>
+        <li><div><b>חניה מסודרת בצד המזרחי — עד הכיכר</b>
+          בקטע שבין סמטת ההדסים לכיכר שבזי–לוע הארי יסומנו מקומות חניה בצד המזרחי של הרחוב.</div></li>
+        <li><div><b>אין כניסה מהכיכר</b>
+          הכניסה לרחוב בר יהודה מכיוון כיכר שבזי–לוע הארי תיאסר, בכל שעות היממה.</div></li>
+      </ol>
+
+      <figure class="plan-fig">
+        <a class="zoom" href="plan-hd.jpg" target="_blank" rel="noopener">
+          <img src="plan.jpg" width="1600" height="755" loading="lazy"
+               alt="שרטוט התכנית של המועצה על גבי תצלום אוויר: רחוב בר יהודה מרחוב הצבעוני ועד כיכר שבזי–לוע הארי. חצים לבנים מסמנים נסיעה בכיוון אחד, מסגרת לבנה לאורך צד אחד של הכביש מסמנת את רצועת החניה, ותמרורי אין כניסה מוצבים ביציאה לכיכר.">
+        </a>
+        <figcaption>התכנית שהמועצה שלחה לתושבים (ועדת תמרור, ספטמבר 2026). לחצו על התמונה כדי לפתוח אותה בגודל מלא.</figcaption>
+        <div class="links">
+          <a href="plan-hd.jpg" target="_blank" rel="noopener">פתיחת השרטוט בגודל מלא</a>
+          <a href="bar-yehuda-plan.pdf" target="_blank" rel="noopener">הורדת הקובץ המקורי (PDF, כ-10MB)</a>
+        </div>
+      </figure>
+
+      <div class="cta-band">
+        <span class="t">מסכימים עם התכנית?<span class="s">חתימה אחת של בית האב שלכם מקרבת את הביצוע. לוקח דקה.</span></span>
+        <a class="btn btn-cta" href="#sign" data-cta><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== איך קוראים את השרטוט ===== -->
+  <section class="alt" aria-labelledby="lg-title">
+    <div class="wrap">
+      <h2 id="lg-title">איך קוראים את השרטוט?</h2>
+      <p class="section-lead">לא בטוחים מה זה "הצד הדרומי" ומה זה "הצד המזרחי"? לא צריך מצפן. בשרטוט של המועצה פשוט מחפשים את המסגרת הלבנה:</p>
+      <ul class="legend">
+        <li><span class="sw park" aria-hidden="true"></span><span><strong>מסגרת לבנה</strong> — האזור שבתוך המסגרת יהיה <strong>אזור חניה מסומן</strong>.</span></li>
+        <li><span class="sw redwhite" aria-hidden="true"></span><span><strong>המדרכה בצד השני של הכביש</strong> — תיצבע <strong>באדום-לבן</strong>. שם אסור לחנות.</span></li>
+        <li><span class="sw arrow" aria-hidden="true"></span><span><strong>חצים לבנים על הכביש</strong> — כיוון הנסיעה החדש, בכיוון אחד בלבד.</span></li>
+        <li><span class="sw noentry" aria-hidden="true"></span><span><strong>תמרור אין כניסה</strong> (עיגול אדום עם פס לבן) — אין כניסה לבר יהודה מהכיכר.</span></li>
+      </ul>
+      <p class="note"><span class="sw boundary" aria-hidden="true" style="display:inline-block;width:46px;height:22px;vertical-align:middle;margin-inline-end:8px"></span>
+        הקו האדום המקווקו עם הכיתוב "גבול תוכנית" הוא רק גבול השרטוט. הוא לא סימון שיופיע על הכביש.</p>
+
+      <div class="closeups">
+        <figure>
+          <h3>תקריב 1: תחילת הקטע, אחרי רחוב הצבעוני</h3>
+          <div class="annot">
+            <img src="detail-top.jpg" width="1000" height="394" loading="lazy"
+                 alt="תקריב מהשרטוט: הקטע הישר של בר יהודה אחרי רחוב הצבעוני. לאורך הצד הדרומי של הכביש מסגרת לבנה עם רכבים חונים בתוכה, ולאורך שפת המדרכה הצפונית קו אדום-לבן. חצים לבנים מצביעים לכיוון אחד.">
+            <span class="pin" style="left:20%;top:64%" aria-hidden="true">1</span>
+            <span class="pin p-red" style="left:30%;top:44%" aria-hidden="true">2</span>
+            <span class="pin p-dir" style="left:74%;top:52%" aria-hidden="true">3</span>
+          </div>
+          <ul class="keys">
+            <li><span class="pin" aria-hidden="true">1</span><span><span class="sr-only">סימון 1: </span>מסגרת לבנה בצד הדרומי — כאן חונים.</span></li>
+            <li><span class="pin p-red" aria-hidden="true">2</span><span><span class="sr-only">סימון 2: </span>שפת המדרכה ממול — אדום-לבן, אסור לחנות.</span></li>
+            <li><span class="pin p-dir" aria-hidden="true">3</span><span><span class="sr-only">סימון 3: </span>החץ — כיוון הנסיעה, מהצבעוני לכיוון הכיכר.</span></li>
+          </ul>
+        </figure>
+        <figure>
+          <h3>תקריב 2: סוף הרחוב, ליד כיכר שבזי–לוע הארי</h3>
+          <div class="annot">
+            <img src="detail-east.jpg" width="900" height="984" loading="lazy"
+                 alt="תקריב מהשרטוט: הקטע האחרון של בר יהודה, היורד אל כיכר שבזי–לוע הארי. בצד המזרחי של הכביש מסגרת לבנה לחניה, בצד המערבי שפת מדרכה אדום-לבן, חץ לבן מצביע לכיוון הכיכר, ושני תמרורי אין כניסה מוצבים בכניסה מהכיכר.">
+            <span class="pin" style="left:61%;top:44%" aria-hidden="true">1</span>
+            <span class="pin p-red" style="left:33%;top:16%" aria-hidden="true">2</span>
+            <span class="pin p-dir" style="left:46%;top:60%" aria-hidden="true">3</span>
+            <span class="pin p-stop" style="left:75%;top:66%" aria-hidden="true">4</span>
+          </div>
+          <ul class="keys">
+            <li><span class="pin" aria-hidden="true">1</span><span><span class="sr-only">סימון 1: </span>מסגרת לבנה בצד המזרחי — כאן חונים.</span></li>
+            <li><span class="pin p-red" aria-hidden="true">2</span><span><span class="sr-only">סימון 2: </span>שפת המדרכה ממול — אדום-לבן, אסור לחנות.</span></li>
+            <li><span class="pin p-dir" aria-hidden="true">3</span><span><span class="sr-only">סימון 3: </span>החץ — הנסיעה יורדת אל הכיכר.</span></li>
+            <li><span class="pin p-stop" aria-hidden="true">4</span><span><span class="sr-only">סימון 4: </span>תמרורי אין כניסה — מהכיכר אי אפשר להיכנס לבר יהודה.</span></li>
+          </ul>
+        </figure>
+      </div>
+
+      <div class="cta-band">
+        <span class="t">הבנתם את התכנית?<span class="s">יש לכם בקשה לגבי צד החניה או הכיוון? אפשר לחתום בעד ולצרף השגה מנומקת.</span></span>
+        <a class="btn btn-cta" href="#sign" data-cta><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== למה זה חשוב ===== -->
+  <section aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="grid2 why-grid">
+        <div>
+          <h2 id="why-title">למה זה חשוב לכולנו</h2>
+          <p>ברחוב הצר נשאר בפועל נתיב אחד לשני כיווני נסיעה. <strong>כל בוקר</strong>, בשעות היציאה לגנים ולבתי הספר, רכבים נתקעים זה מול זה, ממתינים, ועולים על המדרכה כדי לעבור — בדיוק במקום שבו הולכים ילדים.</p>
+          <p>ב-23 ביוני 2026 רכב התהפך בעיקול הרחוב. זו סכנת חיים אמיתית, והיא נמצאת אצלנו ברחוב כל יום. רחוב חד-סטרי עם חניה מסודרת הוא צעד ממשי שמוריד את הסכנה — והוא כבר מוכן על השולחן של המועצה.</p>
+          <p class="note red"><strong>למה צריך את החתימה שלכם?</strong>
+            המועצה הבהירה שהתכנית תתקדם רק כשיוצגו בפניה מסמכים שמראים שהתושבים מסכימים. דרושה חתימה של <strong>רוב בתי האב</strong> ברחובות הקשורים.
+            ברגע שנגיע לרוב, נציג התושבים יעביר את רשימת החתימות למועצה, והתכנית תעבור לדיון ולאישור בוועדת התנועה.</p>
+        </div>
+        <div class="photos">
+          <figure style="margin:0">
+            <img src="../assets/accident-3.jpg" loading="lazy" width="800" height="600"
+                 alt="רכב שהתהפך על צידו וחוסם את הכביש בעיקול רחוב בר יהודה, בתאונה מ-23 ביוני 2026">
+            <figcaption>העיקול ברחוב בר יהודה, 23 ביוני 2026.</figcaption>
+          </figure>
+          <figure style="margin:0">
+            <img src="../assets/morning.jpg" loading="lazy" width="800" height="600"
+                 alt="שעת בוקר ברחוב הצר: שני רכבים עולים על אבני המדרכה כדי לחלוף זה על פני זה">
+            <figcaption>בוקר רגיל: רכבים עולים על המדרכה כדי לעבור.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="cta-band red">
+        <span class="t">לא מחכים לתאונה הבאה.<span class="s">כל בית אב שחותם מקרב את היום שבו הרחוב יהיה בטוח יותר.</span></span>
+        <a class="btn btn-cta" href="#sign" data-cta><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== חתימה אחת לכל בית אב ===== -->
+  <section class="alt" id="rules" aria-labelledby="rules-title">
+    <div class="wrap">
+      <h2 id="rules-title">חשוב: חתימה אחת לכל בית אב</h2>
+      <div class="grid2 rules-grid">
+        <div>
+          <p class="define"><strong>מה זה בית אב?</strong> משק בית אחד — כל מי שגר יחד באותו בית, עם אותו מספר בית. המועצה סופרת בתי אב, לא אנשים. לכן:</p>
+          <ul class="rules">
+            <li><span class="ic yes" aria-hidden="true">&#10003;</span><span><span class="sr-only">כן: </span>כל בית שיש לו <strong>מספר משלו</strong> הוא בית אב, וחותם <strong>פעם אחת</strong>.</span></li>
+            <li><span class="ic no" aria-hidden="true">&#10007;</span><span><span class="sr-only">לא: </span>בני זוג או בני משפחה שגרים באותו בית — <strong>רק אחד מכם</strong> חותם, בשם כל בית האב.</span></li>
+            <li><span class="ic no" aria-hidden="true">&#10007;</span><span><span class="sr-only">לא: </span>בית ויחידת השכרה שיש להם <strong>אותו מספר</strong> — חתימה אחת בלבד לשניהם.</span></li>
+            <li><span class="ic yes" aria-hidden="true">&#10003;</span><span><span class="sr-only">כן: </span>יחידה עם <strong>מספר נפרד</strong> (למשל 13 ו-13א) — כל מספר חותם בנפרד.</span></li>
+            <li><span class="ic yes" aria-hidden="true">&#10003;</span><span><span class="sr-only">כן: </span>גרים <strong>ברחוב סמוך</strong>? השינוי נוגע גם לכם. חתמו ובחרו את הרחוב שלכם.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>מה צריך למלא? שלושה פרטים בלבד:</h3>
+          <ul class="fields">
+            <li>שם החותם</li><li>שם הרחוב</li><li>מספר הבית</li>
+          </ul>
+          <p class="note amber">לא מצאתם את הרחוב או את המספר שלכם ברשימה? בחרו "אחר" והקלידו אותו בעצמכם — או פשוט לחצו על הבית שלכם במפה.</p>
+
+          <div class="again" role="note" aria-labelledby="again-title">
+            <h3 id="again-title">חתמתם על העצומה הקודמת ביוני?</h3>
+            <p>המועצה מבקשת עכשיו הסכמה <strong>לתכנית הזו בדיוק</strong> — נשמח שתחתמו שוב, פעם אחת לכל בית אב.</p>
+            <a class="btn btn-cta" href="#sign" data-cta><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== טופס החתימה + מפה ===== -->
+  <section id="sign" aria-labelledby="sign-title">
+    <div class="wrap">
+      <h2 id="sign-title">חתימה בשם בית האב</h2>
+      <p class="section-lead">בחרו את הכתובת מהרשימה — או לחצו על הבית שלכם במפה, והפרטים יתמלאו לבד.</p>
+
+      <div class="sign-grid">
+        <div class="card" id="formcard">
+          <div class="closed" id="closed">
+            <p class="note amber" style="margin-top:0">טופס החתימה ייפתח בקרוב. אפשר כבר לעיין בתכנית ובמפה.</p>
+          </div>
+
+          <form id="signForm" novalidate>
+            <div class="field">
+              <label for="f-name">שם החותם/ת <span aria-hidden="true">*</span></label>
+              <input type="text" id="f-name" autocomplete="name" required aria-required="true" maxlength="80">
+              <span class="hint">שם מלא של מי שחותם בשם בית האב.</span>
+            </div>
+
+            <div class="picked" id="picked" role="status">
+              <span id="picked-text"></span>
+              <button type="button" id="picked-clear">ביטול הבחירה מהמפה</button>
+            </div>
+
+            <div class="row2">
+              <div class="field">
+                <label for="f-street">רחוב <span aria-hidden="true">*</span></label>
+                <select id="f-street" required aria-required="true"></select>
+                <div class="other" id="street-other-wrap" hidden>
+                  <label for="f-street-other">שם הרחוב</label>
+                  <input type="text" id="f-street-other" maxlength="60">
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-house">מספר בית <span aria-hidden="true">*</span></label>
+                <select id="f-house" required aria-required="true" aria-describedby="house-msg"></select>
+                <div class="other" id="house-other-wrap" hidden>
+                  <label for="f-house-other" id="house-other-label">מספר הבית (כולל אות, אם יש — למשל 13א)</label>
+                  <input type="text" id="f-house-other" maxlength="20">
+                </div>
+                <div class="inline-msg" id="house-msg" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>מה העמדה של בית האב? <span aria-hidden="true">*</span></legend>
+              <div class="stance">
+                <label class="opt"><input type="radio" name="stance" value="support" checked>
+                  <span><b>אנחנו בעד התכנית, כפי שהיא</b><small>מסכימים לכל ארבעת השינויים.</small></span></label>
+                <label class="opt obj"><input type="radio" name="stance" value="objection">
+                  <span><b>אנחנו בעד, אבל יש לנו השגה</b><small>למשל: לשים את האדום-לבן בצד השני, או להפוך את כיוון החד-סטרי. חובה לנמק.</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="objpanel" id="objpanel" hidden>
+              <fieldset style="margin-bottom:10px">
+                <legend>על מה ההשגה? (אפשר לסמן כמה)</legend>
+                <div class="topics">
+                  <label><input type="checkbox" name="topic" value="צד החניה והאדום-לבן — בצד השני" id="t-side"><span>צד החניה והאדום-לבן — מבקשים שיהיו <strong>בצד השני</strong> של הכביש</span></label>
+                  <label><input type="checkbox" name="topic" value="כיוון הנסיעה — בכיוון ההפוך"><span>כיוון הנסיעה — מבקשים שהחד-סטרי יהיה <strong>בכיוון ההפוך</strong> (מהכיכר לכיוון הצבעוני)</span></label>
+                  <label><input type="checkbox" name="topic" value="נושא אחר"><span>נושא אחר</span></label>
+                </div>
+              </fieldset>
+              <div class="field" id="section-wrap" hidden>
+                <label for="f-section">באיזה קטע להעביר את החניה לצד השני?</label>
+                <select id="f-section">
+                  <option value="">בחרו קטע</option>
+                  <option value="תחילת הקטע (אחרי רחוב הצבעוני)">תחילת הקטע (אחרי רחוב הצבעוני)</option>
+                  <option value="מסמטת ההדסים עד הכיכר">מסמטת ההדסים עד הכיכר</option>
+                  <option value="בשני הקטעים">בשני הקטעים</option>
+                </select>
+              </div>
+              <div class="field" style="margin-bottom:0">
+                <label for="f-reason">פירוט ונימוק — למה אתם מבקשים את זה? <span aria-hidden="true">*</span></label>
+                <textarea id="f-reason" maxlength="1500" aria-describedby="reason-hint"></textarea>
+                <span class="hint" id="reason-hint">חובה לנמק. ההשגה והנימוק יועברו למועצה יחד עם החתימה. חתימה עם השגה נספרת כחתימה בעד הפיכת הרחוב לחד-סטרי.</span>
+              </div>
+            </div>
+
+            <div class="hp" aria-hidden="true">
+              <label for="f-hp">לא למילוי</label>
+              <input type="text" id="f-hp" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <div class="check">
+                <input type="checkbox" id="f-consent" required aria-required="true">
+                <label for="f-consent">אני גר/ה בכתובת הזו ומסכים/ה לתכנית המועצה להפיכת רחוב בר יהודה לחד-סטרי ולהסדרת החניה, כפי שהיא מוצגת בדף הזה (ובכפוף להשגה שפירטתי, אם פירטתי). אני חותם/ת בשם כל בית האב.</label>
+              </div>
+            </div>
+
+            <p class="hint" style="margin-bottom:14px">השם וההשגה יימסרו למועצה ברשימת החותמים בלבד, ולא יוצגו באתר. במפה תסומן רק הכתובת — כבית אב שחתם.</p>
+
+            <button type="submit" class="btn btn-cta submit-btn" id="f-submit"><span class="tick" aria-hidden="true">&#10003;</span>אני חותם/ת בשם בית האב</button>
+            <div class="status" id="f-status" role="alert"></div>
+          </form>
+
+          <div class="done" id="done" tabindex="-1">
+            <div class="big" aria-hidden="true">&#127881;</div>
+            <h3 id="done-title">תודה! בית האב שלכם נספר.</h3>
+            <p id="done-text"></p>
+            <p>עכשיו הכי חשוב: <strong>שלחו לשכנים</strong> — כל בית אב שחותם מקרב אותנו לרוב.</p>
+            <div class="btns" style="justify-content:center">
+              <a class="btn btn-green" id="share-wa" href="#" target="_blank" rel="noopener">שיתוף בוואטסאפ</a>
+              <button type="button" class="btn btn-ghost" id="share-copy">העתקת הקישור</button>
+            </div>
+            <p style="margin-top:14px"><button type="button" class="btn btn-ghost" id="sign-another">חתימה עבור בית אב אחר</button></p>
+          </div>
+        </div>
+
+        <div class="card mapcard" aria-labelledby="map-title">
+          <h3 id="map-title">מפת בתי האב שחתמו</h3>
+          <p style="margin:0 0 4px; font-size:.98rem">לחצו על הבית שלכם כדי לחתום. בית שחותם נצבע בירוק.</p>
+          <ul class="maplegend">
+            <li><span class="dot yes" aria-hidden="true"></span>חתם</li>
+            <li><span class="dot no" aria-hidden="true"></span>עוד לא חתם</li>
+            <li><span class="dot un" aria-hidden="true"></span>בית בלי מספר במאגר</li>
+            <li><span class="ln prop" aria-hidden="true"></span>יהפוך לחד-סטרי</li>
+            <li><span class="ln ex" aria-hidden="true"></span>כבר חד-סטרי</li>
+          </ul>
+          <div id="map" role="region" aria-label="מפת השכונה עם בתי האב שחתמו. אותו מידע מופיע גם בטבלה שמתחת למפה, ואפשר לחתום גם דרך הטופס."></div>
+          <p style="font-size:.93rem;color:var(--muted);margin:10px 0 0">
+            המיקומים לפי מאגר הכתובות הממשלתי וקווי המבנים של OpenStreetMap. <span id="unmapped"></span>
+            <a href="https://www.govmap.gov.il/?c=192300.97,686801.1&amp;z=12&amp;q=%D7%91%D7%A8+%D7%99%D7%94%D7%95%D7%93%D7%94+%D7%A7%D7%93%D7%99%D7%9E%D7%94-%D7%A6%D7%95%D7%A8%D7%9F" target="_blank" rel="noopener">לצפייה באזור ב-GovMap</a>
+          </p>
+          <details>
+            <summary>חתימות לפי רחוב (טבלה)</summary>
+            <table id="byStreet">
+              <caption class="sr-only">מספר בתי האב שחתמו בכל רחוב</caption>
+              <thead><tr><th scope="col">רחוב</th><th scope="col">בתי אב שחתמו</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="sticky-cta" id="stickyCta">
+  <a class="btn btn-cta" href="#sign" data-cta tabindex="-1"><span class="tick" aria-hidden="true">&#10003;</span>אני בעד — לחתימה</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h2>מי אנחנו</h2>
+    <p>הדף הוקם בהתנדבות על ידי תושבי השכונה, כדי לאסוף את הסכמת התושבים לתכנית שהמועצה הציעה.
+      נציג התושבים מול המועצה: תום הגלעדי · <a href="mailto:tomhagiladi@gmail.com">tomhagiladi@gmail.com</a></p>
+    <p><strong>מה קורה עם הפרטים שלכם?</strong> השם, הרחוב, מספר הבית וההשגה (אם יש) נשמרים ברשימה פרטית של נציג התושבים, ויועברו למועצה המקומית קדימה-צורן כרשימת החותמים על התכנית.
+      באתר מוצגים רק מספר בתי האב שחתמו והכתובות שלהם — בלי שמות ובלי השגות.</p>
+
+    <div class="accessibility-statement">
+      <h2>הצהרת נגישות</h2>
+      <p>אתר זה עומד בדרישות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ותקן ישראלי ת"י 5568 המבוסס על הנחיות WCAG 2.0 ברמה AA.
+        המידע שבמפה מוצג גם כטקסט בטבלת "חתימות לפי רחוב", וכל השינויים בתכנית מתוארים במילים. אפשר לחתום גם בלי המפה, דרך הטופס.</p>
+      <p>אם נתקלתם בבעיית נגישות באתר, אנא פנו אלינו ונשמח לסייע:</p>
+      <p><strong>רכז נגישות:</strong> תום הגלעדי<br>
+        <strong>אימייל:</strong> <a href="mailto:tomhagiladi@gmail.com">tomhagiladi@gmail.com</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha384-NElt3Op+9NBMCYaef5HxeJmU4Xeard/Lku8ek6hoPTvYkQPh3zLIrJP7KiRocsxO" crossorigin="anonymous"></script>
+<script>
+(function(){
+  'use strict';
+  var PAGE_URL = 'https://tomhagiladi.github.io/bar-yehuda-kadima/plan/';
+  var ENDPOINT = (window.PLAN_ENDPOINT || '').trim();
+  var DEMO = !ENDPOINT && /[?&]demo=1/.test(location.search);
+  var STREETS = window.PLAN_STREETS || [];
+  var BLDS = window.PLAN_BUILDINGS || [];
+  var OTHER = '__other__';
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- נרמול כתובת (זהה לקוד השרת) ---------- */
+  function normStreet(s){
+    return String(s||'').replace(/[״“”]/g,'"').replace(/[׳‘’`]/g,"'")
+      .replace(/^\s*(רחוב|רח')\s*/,'').replace(/-/g,' ').replace(/\s+/g,' ').trim();
+  }
+  function normHouse(h){ return String(h||'').replace(/[״“”"׳‘’`'.\-\s]/g,'').trim(); }
+  function keyOf(s,h){ return normStreet(s)+'|'+normHouse(h); }
+  function hasDigit(h){ return /\d/.test(String(h||'')); }
+  function byHouse(a,b){ return (parseInt(a,10)-parseInt(b,10)) || (a<b?-1:a>b?1:0); }
+
+  /* ---------- אינדקסים ---------- */
+  var KNOWN = {};                       // key -> {street, house, lat, lng}
+  STREETS.forEach(function(st){
+    Object.keys(st.houses).forEach(function(h){
+      var c=st.houses[h]; KNOWN[keyOf(st.name,h)]={street:st.name, house:h, lat:c[0], lng:c[1]};
+    });
+  });
+  var BLD_BY_ID = {}, BLD_OF_KEY = {};
+  BLDS.forEach(function(b){
+    BLD_BY_ID[b.id]=b;
+    b.a.forEach(function(raw){ var p=raw.split('|'); BLD_OF_KEY[keyOf(p[0],p[1])]=b.id; });
+  });
+
+  var signed = {};        // key -> true  (רחוב|מספר)
+  var signedLoc = {};     // building id -> true
+  var pickedLoc = '';     // מבנה שנבחר במפה (בלי מספר במאגר)
+
+  /* ---------- טופס ---------- */
+  var fStreet=$('f-street'), fHouse=$('f-house'), fStreetOther=$('f-street-other'), fHouseOther=$('f-house-other');
+  var houseMsg=$('house-msg'), statusBox=$('f-status');
+
+  function opt(value, text){ var o=document.createElement('option'); o.value=value; o.textContent=text; return o; }
+  function fillStreets(){
+    fStreet.innerHTML='';
+    fStreet.appendChild(opt('', 'בחרו רחוב'));
+    STREETS.forEach(function(st){ fStreet.appendChild(opt(st.name, st.name)); });
+    fStreet.appendChild(opt(OTHER, 'רחוב אחר — אקליד בעצמי'));
+  }
+  function streetObj(name){ for(var i=0;i<STREETS.length;i++){ if(STREETS[i].name===name) return STREETS[i]; } return null; }
+  function fillHouses(keep){
+    var st=streetObj(fStreet.value), prev=keep ? fHouse.value : '';
+    fHouse.innerHTML='';
+    if(fStreet.value===OTHER){
+      fHouse.appendChild(opt(OTHER,'אקליד בעצמי')); fHouse.value=OTHER; fHouse.disabled=true;
+      $('house-other-wrap').hidden=false; return;
+    }
+    fHouse.disabled=false;
+    if(!st){ fHouse.appendChild(opt('', 'קודם בוחרים רחוב')); $('house-other-wrap').hidden=true; return; }
+    fHouse.appendChild(opt('', 'בחרו מספר בית'));
+    Object.keys(st.houses).sort(byHouse).forEach(function(h){
+      fHouse.appendChild(opt(h, signed[keyOf(st.name,h)] ? (h+' — כבר חתם ✓') : h));
+    });
+    fHouse.appendChild(opt(OTHER,'מספר אחר — אקליד בעצמי'));
+    if(prev){ fHouse.value=prev; }
+    $('house-other-wrap').hidden = fHouse.value!==OTHER;
+  }
+  function chosen(){
+    var s = fStreet.value===OTHER ? fStreetOther.value.trim() : fStreet.value;
+    var h = fHouse.value===OTHER ? fHouseOther.value.trim() : fHouse.value;
+    return {street:s, house:h};
+  }
+  function isSignedChoice(c){
+    if(c.street && hasDigit(c.house) && signed[keyOf(c.street,c.house)]) return true;
+    if(!hasDigit(c.house) && pickedLoc && signedLoc[pickedLoc]) return true;
+    return false;
+  }
+  function checkAlready(){
+    var c=chosen();
+    if(isSignedChoice(c)){
+      houseMsg.innerHTML='בית האב הזה כבר חתום ✓ — תודה! אין צורך בחתימה נוספת. חושבים שזו טעות? <a href="mailto:tomhagiladi@gmail.com">כתבו לנו</a>.';
+      houseMsg.classList.add('show'); return true;
+    }
+    houseMsg.classList.remove('show'); houseMsg.textContent=''; return false;
+  }
+  function clearPicked(){
+    pickedLoc=''; $('picked').classList.remove('show');
+    $('house-other-label').textContent='מספר הבית (כולל אות, אם יש — למשל 13א)';
+  }
+  fStreet.addEventListener('change', function(){
+    $('street-other-wrap').hidden = fStreet.value!==OTHER;
+    fillHouses(false); checkAlready();
+    if(fStreet.value===OTHER){ fStreetOther.focus(); }
+  });
+  fHouse.addEventListener('change', function(){
+    if(fHouse.value!==OTHER) clearPicked();
+    $('house-other-wrap').hidden = fHouse.value!==OTHER;
+    if(fHouse.value===OTHER){ fHouseOther.focus(); }
+    checkAlready();
+  });
+  fStreetOther.addEventListener('input', checkAlready);
+  fHouseOther.addEventListener('input', checkAlready);
+  $('picked-clear').addEventListener('click', function(){ clearPicked(); checkAlready(); paintAll(); });
+
+  /* השגה */
+  function stance(){ var r=document.querySelector('input[name=stance]:checked'); return r ? r.value : 'support'; }
+  document.querySelectorAll('input[name=stance]').forEach(function(r){
+    r.addEventListener('change', function(){
+      var on = stance()==='objection';
+      $('objpanel').hidden = !on;
+      $('f-reason').setAttribute('aria-required', on ? 'true' : 'false');
+      if(on){ document.querySelector('#objpanel input[type=checkbox]').focus(); }
+    });
+  });
+  $('t-side').addEventListener('change', function(){ $('section-wrap').hidden = !this.checked; });
+
+  function showStatus(kind, html){ statusBox.className='status show '+kind; statusBox.innerHTML=html; }
+  function invalid(el, on){ if(el){ el.setAttribute('aria-invalid', on ? 'true' : 'false'); } }
+
+  $('signForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var name=$('f-name').value.trim(), c=chosen(), st=stance();
+    var topics=[].map.call(document.querySelectorAll('input[name=topic]:checked'), function(x){ return x.value; });
+    var section=$('f-section').value, reason=$('f-reason').value.trim();
+    var missing=[];
+    invalid($('f-name'), !name); if(!name) missing.push('שם החותם');
+    invalid(fStreet, !c.street); if(!c.street) missing.push('רחוב');
+    var houseOk = hasDigit(c.house) || !!pickedLoc;
+    invalid(fHouse.value===OTHER ? fHouseOther : fHouse, !houseOk);
+    if(!houseOk) missing.push('מספר בית (או בחירת הבית במפה)');
+    if(st==='objection'){
+      if(!topics.length) missing.push('על מה ההשגה');
+      if(topics.indexOf('צד החניה והאדום-לבן — בצד השני')>=0 && !section){ missing.push('באיזה קטע'); invalid($('f-section'), true); } else { invalid($('f-section'), false); }
+      invalid($('f-reason'), reason.length<10);
+      if(reason.length<10) missing.push('נימוק להשגה (לפחות משפט קצר)');
+    }
+    if(!$('f-consent').checked) missing.push('סימון האישור');
+    if(missing.length){ showStatus('err','כדי לחתום חסר: '+missing.join(', ')+'.'); return; }
+    if(checkAlready()){ showStatus('warn','בית האב הזה כבר חתום, ולכן החתימה לא נשלחה. תודה!'); return; }
+    if(!ENDPOINT && !DEMO){ showStatus('warn','טופס החתימה עוד לא פתוח. נסו שוב בקרוב.'); return; }
+
+    var btn=$('f-submit'), label=btn.innerHTML; btn.disabled=true; btn.textContent='שולח...';
+    var payload={name:name, street:c.street, house:c.house, loc:pickedLoc, consent:true,
+                 stance:st, topics: st==='objection'?topics:[], section: st==='objection'?section:'', reason: st==='objection'?reason:'',
+                 hp:$('f-hp').value};
+    submitSignature(payload).then(function(res){
+      btn.disabled=false; btn.innerHTML=label;
+      if(res && res.ok){
+        applyList(res);
+        if(res.duplicate){ showStatus('warn','בית האב הזה כבר חתום — מישהו מהבית חתם לפניכם. החתימה לא נספרה פעמיים. תודה!'); return; }
+        onSigned(c, st, payload.loc);
+      } else if(res && res.error==='reason'){
+        showStatus('err','בהשגה צריך לסמן נושא ולכתוב נימוק.');
+      } else {
+        showStatus('err','משהו השתבש בשליחה. נסו שוב בעוד רגע, או <a href="mailto:tomhagiladi@gmail.com">כתבו לנו</a>.');
+      }
+    });
+  });
+
+  function onSigned(c, st, loc){
+    $('signForm').style.display='none';
+    var d=$('done'); d.classList.add('show');
+    $('done-title').textContent = st==='objection' ? 'תודה! החתימה וההשגה של בית האב נרשמו.' : 'תודה! בית האב שלכם נספר.';
+    $('done-text').textContent = (c.street+' '+(c.house||'(בית שסומן במפה)')).trim()+' סומן במפה כבית אב שחתם.';
+    var msg='שכנים, המועצה מוכנה להפוך את בר יהודה לחד-סטרי ולהסדיר את החניה — אבל רק אם רוב בתי האב יחתמו. חתימה אחת לכל בית אב, לוקח דקה:';
+    $('share-wa').href='https://wa.me/?text='+encodeURIComponent(msg+' '+PAGE_URL);
+    d.focus();
+    var k=keyOf(c.street,c.house), b = loc ? BLD_BY_ID[loc] : (BLD_OF_KEY[k] ? BLD_BY_ID[BLD_OF_KEY[k]] : null);
+    if(map){ if(KNOWN[k]) map.setView([KNOWN[k].lat,KNOWN[k].lng], 18); else if(b) map.setView(b.c, 18); }
+    updateSticky();
+  }
+  $('sign-another').addEventListener('click', function(){
+    $('done').classList.remove('show'); $('signForm').style.display='';
+    $('signForm').reset(); clearPicked(); fillStreets(); fillHouses(false); statusBox.className='status';
+    $('street-other-wrap').hidden=true; $('house-other-wrap').hidden=true; $('objpanel').hidden=true; $('section-wrap').hidden=true;
+    $('f-name').focus();
+  });
+  $('share-copy').addEventListener('click', function(){
+    var b=this;
+    (navigator.clipboard ? navigator.clipboard.writeText(PAGE_URL) : Promise.reject()).then(function(){
+      b.textContent='הקישור הועתק ✓'; setTimeout(function(){ b.textContent='העתקת הקישור'; },2200);
+    }, function(){ prompt('העתיקו את הקישור:', PAGE_URL); });
+  });
+
+  /* כל כפתורי "אני בעד" — גלילה לטופס ומיקוד בשדה השם */
+  document.querySelectorAll('[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(ev){
+      ev.preventDefault();
+      $('sign').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+      setTimeout(function(){ var t = $('done').classList.contains('show') ? $('done') : $('f-name'); t.focus({preventScroll:true}); }, 550);
+    });
+  });
+
+  /* פס "אני בעד" צף בנייד: מופיע אחרי הפתיח, נעלם ליד הטופס */
+  var sticky=$('stickyCta'), heroCta=$('heroCta'), heroVisible=true, signVisible=false;
+  function updateSticky(){ sticky.classList.toggle('show', !heroVisible && !signVisible && !$('done').classList.contains('show')); }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(e){ heroVisible=e[0].isIntersecting; updateSticky(); }).observe(heroCta);
+    new IntersectionObserver(function(e){ signVisible=e[0].isIntersecting; updateSticky(); },{rootMargin:'0px 0px -35% 0px'}).observe($('sign'));
+  }
+
+  /* ---------- תקשורת עם השרת ---------- */
+  function jsonp(url){
+    return new Promise(function(resolve, reject){
+      var cb='__plan_cb_'+Date.now()+Math.floor(Math.random()*1000);
+      var s=document.createElement('script'), t=setTimeout(function(){ cleanup(); reject(new Error('timeout')); }, 12000);
+      function cleanup(){ clearTimeout(t); try{ delete window[cb]; }catch(e){ window[cb]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); }
+      window[cb]=function(data){ cleanup(); resolve(data); };
+      s.onerror=function(){ cleanup(); reject(new Error('jsonp')); };
+      s.src=url+(url.indexOf('?')<0?'?':'&')+'action=list&callback='+cb+'&_='+Date.now();
+      document.head.appendChild(s);
+    });
+  }
+  function loadList(){
+    if(DEMO){ return Promise.resolve(demoList()); }
+    if(!ENDPOINT){ return Promise.resolve(null); }
+    return fetch(ENDPOINT+'?action=list&_='+Date.now(), {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); })
+      .catch(function(){ return jsonp(ENDPOINT); })
+      .catch(function(){ return null; });
+  }
+  function submitSignature(p){
+    if(DEMO){ return new Promise(function(res){ setTimeout(function(){ res(demoSign(p)); }, 600); }); }
+    return fetch(ENDPOINT, {method:'POST', body:JSON.stringify(p)})
+      .then(function(r){ return r.json(); })
+      .catch(function(){
+        return fetch(ENDPOINT, {method:'POST', mode:'no-cors', body:JSON.stringify(p)})
+          .then(function(){ return new Promise(function(r){ setTimeout(r, 2500); }); })
+          .then(function(){ return jsonp(ENDPOINT); })
+          .then(function(list){
+            if(list && list.ok){ applyList(list);
+              if((hasDigit(p.house) && signed[keyOf(p.street,p.house)]) || (p.loc && signedLoc[p.loc])) return list; }
+            return {ok:false};
+          })
+          .catch(function(){ return {ok:false}; });
+      });
+  }
+
+  /* ---------- מצב הדגמה (?demo=1, רק כשאין שרת) ---------- */
+  var demoRows=[['בר יהודה','16',''],['בר יהודה','25',''],['בר יהודה','59',''],['בר יהודה','61',''],['ההדסים','10',''],['שבזי','35',''],['הצבעוני','4',''],['ברוש','7','']];
+  function demoList(){ return {ok:true, count:demoRows.length, signed:demoRows.slice()}; }
+  function demoSign(p){
+    var k = hasDigit(p.house) ? keyOf(p.street,p.house) : 'loc|'+p.loc;
+    for(var i=0;i<demoRows.length;i++){
+      var r=demoRows[i], rk = hasDigit(r[1]) ? keyOf(r[0],r[1]) : 'loc|'+r[2];
+      if(rk===k){ var d=demoList(); d.duplicate=true; return d; }
+    }
+    demoRows.push([p.street,p.house,p.loc||'']); return demoList();
+  }
+
+  /* ---------- עדכון המונה, המפה והטבלה ---------- */
+  var lastRows=[];
+  function applyList(data){
+    if(!data || !data.ok) return;
+    lastRows=data.signed||[]; signed={}; signedLoc={};
+    lastRows.forEach(function(r){
+      if(hasDigit(r[1])) signed[keyOf(r[0],r[1])]=true;
+      if(r[2]) signedLoc[String(r[2]).replace(/^osm:/,'')]=true;
+    });
+    $('count').textContent = lastRows.length;
+    paintAll(); renderTable(); fillHouses(true); checkAlready();
+  }
+  function renderTable(){
+    var by={}, order=STREETS.map(function(s){ return s.name; });
+    lastRows.forEach(function(r){
+      var k=keyOf(r[0],r[1]), name = KNOWN[k] ? KNOWN[k].street : normStreet(r[0]);
+      by[name]=(by[name]||0)+1;
+    });
+    var names=order.concat(Object.keys(by).filter(function(n){ return order.indexOf(n)<0; }).sort());
+    var tb=document.querySelector('#byStreet tbody'); tb.innerHTML='';
+    names.forEach(function(n){
+      var tr=document.createElement('tr');
+      var th=document.createElement('th'); th.scope='row'; th.textContent=n;
+      var td=document.createElement('td'); td.className='n'; td.textContent=by[n]||0;
+      tr.appendChild(th); tr.appendChild(td); tb.appendChild(tr);
+    });
+    var un=lastRows.filter(function(r){ var k=keyOf(r[0],r[1]); return !KNOWN[k] && !(r[2] && BLD_BY_ID[String(r[2]).replace(/^osm:/,'')]); }).length;
+    $('unmapped').textContent = un ? ('כרגע '+un+' בתי אב חתמו עם כתובת שאינה מסומנת במפה, והם נספרים במונה.') : '';
+  }
+
+  /* ---------- מפה ---------- */
+  var map=null, markers={}, unMarkers={}, polys={};
+  function bearing(a,b){
+    var toR=Math.PI/180, la1=a[0]*toR, la2=b[0]*toR, dl=(b[1]-a[1])*toR;
+    var y=Math.sin(dl)*Math.cos(la2), x=Math.cos(la1)*Math.sin(la2)-Math.sin(la1)*Math.cos(la2)*Math.cos(dl);
+    return (Math.atan2(y,x)*180/Math.PI+360)%360;
+  }
+  var POLY_BASE={color:'#1d4fa3', weight:2, opacity:0, fillColor:'#1d4fa3', fillOpacity:0};
+  var POLY_SIGNED={color:'#0c5636', weight:1.5, opacity:.9, fillColor:'#127049', fillOpacity:.42};
+  function buildingSigned(b){
+    if(signedLoc[b.id]) return true;
+    for(var i=0;i<b.a.length;i++){ var p=b.a[i].split('|'); if(signed[keyOf(p[0],p[1])]) return true; }
+    return false;
+  }
+  function initMap(){
+    if(!window.L){ $('map').innerHTML='<p style="padding:16px">המפה לא נטענה. אפשר לחתום דרך הטופס ולראות את החתימות בטבלה.</p>'; return; }
+    var el=$('map'); el.setAttribute('dir','ltr');
+    map=L.map(el,{scrollWheelZoom:false});
+    var osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19, attribution:'&copy; OpenStreetMap'});
+    var sat=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19, attribution:'Imagery &copy; Esri'});
+    osm.addTo(map);
+    L.control.layers({'מפה':osm,'תצלום אוויר':sat},null,{position:'topright'}).addTo(map);
+
+    BLDS.forEach(function(b){
+      var pg=L.polygon(b.p, POLY_BASE);
+      pg.on('mouseover', function(){ if(!buildingSigned(b)) pg.setStyle({opacity:.9, fillOpacity:.12}); });
+      pg.on('mouseout', function(){ if(!buildingSigned(b)) pg.setStyle(POLY_BASE); });
+      pg.on('click', function(e){ openBuilding(b, e.latlng); });
+      pg.addTo(map); polys[b.id]=pg;
+    });
+
+    var lines=window.PLAN_LINES||{};
+    if(lines.existing){ L.polyline(lines.existing,{color:'#1d4fa3',weight:5,opacity:.85,dashArray:'8 7',interactive:false}).addTo(map); }
+    if(lines.proposed){
+      L.polyline(lines.proposed,{color:'#ffffff',weight:11,opacity:.9,interactive:false}).addTo(map);
+      L.polyline(lines.proposed,{color:'#b3261e',weight:7,opacity:.95,interactive:false}).addTo(map);
+      var pr=lines.proposed;
+      for(var i=2;i<pr.length-1;i+=5){
+        var bd=bearing(pr[i],pr[i+1]);
+        L.marker(pr[i],{interactive:false, keyboard:false, icon:L.divIcon({className:'', iconSize:[20,20], iconAnchor:[10,10],
+          html:'<div class="dir-arrow" style="transform:rotate('+(bd-90)+'deg)">&#10148;</div>'})}).addTo(map);
+      }
+    }
+
+    var pts=[], CORE={'בר יהודה':1,'ההדסים':1,'הצבעוני':1};
+    Object.keys(KNOWN).forEach(function(k){
+      var a=KNOWN[k]; if(CORE[a.street]) pts.push([a.lat,a.lng]);
+      var m=L.marker([a.lat,a.lng],{keyboard:false, icon:L.divIcon({className:'', iconSize:[12,12], iconAnchor:[6,6], html:'<div class="hm"></div>'})});
+      m.bindTooltip(a.street+' '+a.house,{direction:'top', offset:[0,-6]});
+      m.on('click', function(){ openAddress(k, [a.lat,a.lng]); });
+      m.addTo(map); markers[k]=m;
+    });
+    BLDS.forEach(function(b){
+      if(!b.u) return;
+      var m=L.marker(b.c,{keyboard:false, icon:L.divIcon({className:'', iconSize:[12,12], iconAnchor:[6,6], html:'<div class="hm unnum"></div>'})});
+      m.bindTooltip('בית בלי מספר במאגר',{direction:'top', offset:[0,-6]});
+      m.on('click', function(){ openBuilding(b, b.c); });
+      m.addTo(map); unMarkers[b.id]=m;
+    });
+    if(pts.length){
+      var bnd=L.latLngBounds(pts); map.fitBounds(bnd.pad(0.02));
+      if(map.getZoom()<17){ map.setView(bnd.getCenter(), 17); }
+    } else { map.setView([32.2742,34.9160],17); }
+  }
+
+  function popupAt(latlng, node){ L.popup({maxWidth:260}).setLatLng(latlng).setContent(node).openOn(map); }
+  function addrBlock(k, wrap){
+    var a=KNOWN[k], isS=!!signed[k];
+    var t=document.createElement('strong'); t.textContent=a.street+' '+a.house; wrap.appendChild(t);
+    var p=document.createElement('div'); p.textContent = isS ? 'בית האב הזה כבר חתם ✓' : 'בית האב הזה עוד לא חתם.'; wrap.appendChild(p);
+    if(!isS){
+      var b=document.createElement('button'); b.type='button'; b.className='pbtn'; b.textContent='זה הבית שלי — לחתימה';
+      b.addEventListener('click', function(){ map.closePopup(); pickAddress(a.street, a.house); });
+      wrap.appendChild(b);
+    }
+  }
+  function openAddress(k, latlng){ var div=document.createElement('div'); addrBlock(k, div); popupAt(latlng, div); }
+  function openBuilding(b, latlng){
+    var keys=b.a.map(function(raw){ var p=raw.split('|'); return keyOf(p[0],p[1]); }).filter(function(k){ return KNOWN[k]; });
+    var div=document.createElement('div');
+    if(keys.length){
+      keys.forEach(function(k,i){ if(i){ div.appendChild(document.createElement('hr')); } addrBlock(k, div); });
+      popupAt(latlng, div); return;
+    }
+    var t=document.createElement('strong'); t.textContent='בית בלי מספר במאגר'; div.appendChild(t);
+    var p=document.createElement('div');
+    if(signedLoc[b.id]){ p.textContent='בית האב הזה כבר חתם ✓'; div.appendChild(p); popupAt(latlng, div); return; }
+    p.textContent='גרים כאן? לחצו לחתימה והקלידו את הכתובת שלכם.'; div.appendChild(p);
+    var bt=document.createElement('button'); bt.type='button'; bt.className='pbtn'; bt.textContent='לחתימה בשם הבית הזה';
+    bt.addEventListener('click', function(){ map.closePopup(); pickBuilding(b); });
+    div.appendChild(bt);
+    var sm=document.createElement('small'); sm.textContent='יחידת השכרה שיש לה אותו מספר כמו הבית הראשי — לא חותמת בנפרד.'; div.appendChild(sm);
+    popupAt(latlng, div);
+  }
+  function goToForm(focusEl){
+    $('sign').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    setTimeout(function(){ (focusEl||$('f-name')).focus({preventScroll:true}); }, 550);
+  }
+  function resetDoneIfNeeded(){
+    if($('done').classList.contains('show')){ $('sign-another').click(); }
+  }
+  function pickAddress(street, house){
+    resetDoneIfNeeded(); clearPicked();
+    fStreet.value=street; $('street-other-wrap').hidden=true; fillHouses(false);
+    fHouse.value=house; $('house-other-wrap').hidden=true; checkAlready();
+    goToForm($('f-name').value ? $('f-consent') : $('f-name'));
+  }
+  function pickBuilding(b){
+    resetDoneIfNeeded();
+    pickedLoc=b.id;
+    if(b.s && streetObj(b.s)){ fStreet.value=b.s; $('street-other-wrap').hidden=true; } else { fStreet.value=OTHER; $('street-other-wrap').hidden=false; }
+    fillHouses(false); fHouse.value=OTHER; $('house-other-wrap').hidden=false;
+    $('house-other-label').textContent='מספר הבית שלכם (אם אין מספר — השאירו ריק)';
+    $('picked-text').textContent='📍 בחרתם במפה בית שאין לו מספר במאגר. בדקו שהרחוב נכון, והקלידו את מספר הבית אם יש.';
+    $('picked').classList.add('show'); checkAlready(); paintAll();
+    goToForm($('f-name').value ? fHouseOther : $('f-name'));
+  }
+  function paintAll(){
+    if(!map) return;
+    Object.keys(markers).forEach(function(k){
+      var el=markers[k].getElement(); if(!el) return;
+      var dot=el.querySelector('.hm'); if(!dot) return;
+      var isS=!!signed[k];
+      dot.classList.toggle('is-signed', isS);
+      markers[k].setZIndexOffset(isS?1000:0);
+      markers[k].setTooltipContent(KNOWN[k].street+' '+KNOWN[k].house+(isS?' — חתם ✓':' — עוד לא חתם'));
+    });
+    Object.keys(unMarkers).forEach(function(id){
+      var el=unMarkers[id].getElement(); if(!el) return;
+      var dot=el.querySelector('.hm'); var isS=!!signedLoc[id];
+      dot.classList.toggle('is-signed', isS);
+      unMarkers[id].setTooltipContent(isS ? 'בית בלי מספר במאגר — חתם ✓' : 'בית בלי מספר במאגר');
+    });
+    BLDS.forEach(function(b){
+      var pg=polys[b.id]; if(!pg) return;
+      if(buildingSigned(b)) pg.setStyle(POLY_SIGNED);
+      else if(pickedLoc===b.id) pg.setStyle({color:'#b06f12', weight:3, opacity:1, fillColor:'#b06f12', fillOpacity:.25});
+      else pg.setStyle(POLY_BASE);
+    });
+  }
+
+  /* ---------- הפעלה ---------- */
+  fillStreets(); fillHouses(false);
+  if(!ENDPOINT && !DEMO){ $('closed').classList.add('show'); $('f-submit').disabled=true; }
+  initMap();
+  loadList().then(function(d){ if(d) applyList(d); else { $('count').textContent='0'; renderTable(); } });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden && (ENDPOINT||DEMO)) loadList().then(applyList); });
+})();
+</script>
+</body>
+</html>
