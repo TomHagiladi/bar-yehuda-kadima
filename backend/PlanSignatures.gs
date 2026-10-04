@@ -5,9 +5,9 @@
  * כלל הזהב: חתימה אחת לכל בית אב (רחוב + מספר בית).
  * בית שאין לו מספר במאגר נבחר במפה, ואז המפתח שלו הוא המבנה במפה.
  * חתימה שנייה לאותו בית אב לא נספרת — היא נרשמת בלשונית "כפולים" לבדיקה ידנית.
- * אפשר לחתום "בעד" או "בעד עם השגה"; השגה מחייבת נימוק.
+ * אפשר לחתום "בעד", "בעד עם השגה" (מחייב נימוק) או "נגד — להשאיר את הרחוב כפי שהוא" (נימוק רשות).
  *
- * GET  ?action=list[&callback=fn]  -> מספר בתי האב שחתמו + רשימת הכתובות (בלי שמות ובלי השגות)
+ * GET  ?action=list[&callback=fn]  -> רשימת בתי האב שהשיבו: [רחוב, מספר, מבנה, 'x' אם נגד] (בלי שמות ובלי נימוקים)
  * POST {name, street, house, loc, consent, stance, topics, section, reason, hp} -> רישום חתימה
  */
 
@@ -19,7 +19,8 @@ var HEADERS_MAIN = ['תאריך', 'שם החותם', 'רחוב', 'מספר בי�
 var HEADERS_DUP  = ['תאריך', 'שם החותם', 'רחוב', 'מספר בית', 'מפתח בית אב', 'עמדה',
                     'נושאי ההשגה', 'באיזה קטע', 'פירוט ונימוק', 'מבנה במפה', 'הערה'];
 var COL_KEY = 5, COL_STREET = 3, COL_LOC = 10;
-var CACHE_KEY = 'plan_list_v2';
+var CACHE_KEY = 'plan_list_v3';
+var AGAINST_LABEL = 'נגד — להשאיר את הרחוב כפי שהוא';
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
@@ -35,16 +36,17 @@ function doPost(e) {
     var house  = clean(data.house, 20);
     var loc    = clean(data.loc, 30).replace(/[^\w:.-]/g, '');
     var objection = data.stance === 'objection';
+    var against   = data.stance === 'against';
     var topics  = objection && data.topics && data.topics.join ? clean(data.topics.join(' · '), 300) : '';
     var section = objection ? clean(data.section, 80) : '';
-    var reason  = objection ? clean(data.reason, 1500) : '';
+    var reason  = (objection || against) ? clean(data.reason, 1500) : '';
 
     if (!name || !street || !data.consent) return reply({ ok: false, error: 'missing' });
     if (!/\d/.test(house) && !loc) return reply({ ok: false, error: 'house' });
     if (objection && (!topics || reason.length < 10)) return reply({ ok: false, error: 'reason' });
 
     var key = /\d/.test(house) ? householdKey(street, house) : 'מבנה|' + loc;
-    var row = [new Date(), name, street, house, key, objection ? 'בעד, עם השגה' : 'בעד',
+    var row = [new Date(), name, street, house, key, against ? AGAINST_LABEL : (objection ? 'בעד, עם השגה' : 'בעד'),
                topics, section, reason, loc];
 
     var lock = LockService.getScriptLock();
@@ -76,7 +78,7 @@ function doPost(e) {
   }
 }
 
-/* רשימת בתי האב שחתמו — רק רחוב, מספר ומבנה במפה. בלי שמות ובלי השגות. */
+/* רשימת בתי האב שהשיבו — רחוב, מספר, מבנה במפה, וסימון 'x' למי שנגד. בלי שמות ובלי נימוקים. */
 function listPayload() {
   var cache = CacheService.getScriptCache();
   var hit = cache.get(CACHE_KEY);
@@ -89,10 +91,11 @@ function listPayload() {
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
       if (r[COL_STREET - 1] === '') continue;
-      signed.push([String(r[COL_STREET - 1]), String(r[COL_STREET]), String(r[COL_LOC - 1] || '')]);
+      var isAgainst = String(r[5]).indexOf('נגד') === 0;
+      signed.push([String(r[COL_STREET - 1]), String(r[COL_STREET]), String(r[COL_LOC - 1] || ''), isAgainst ? 'x' : '']);
     }
   }
-  var payload = { ok: true, count: signed.length, signed: signed, updated: new Date().toISOString() };
+  var payload = { ok: true, v: 2, count: signed.length, signed: signed, updated: new Date().toISOString() };
   cache.put(CACHE_KEY, JSON.stringify(payload), 20);
   return payload;
 }
