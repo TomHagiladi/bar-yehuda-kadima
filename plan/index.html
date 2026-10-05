@@ -23,6 +23,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
 
@@ -119,6 +121,10 @@ section + section{border-top:1px solid var(--line)}
 .counter .txt{font-size:1.02rem; color:var(--ink-soft)}
 .counter .txt b{display:block; color:var(--ink); font-size:1.15rem}
 .counter .against-line{display:block; color:var(--red-d); font-size:.95rem; margin-top:2px}
+.counter .num.loading{font-size:1.15rem; font-weight:700; color:var(--muted); animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.counter .cnote{display:block; font-size:.9rem; color:var(--muted); margin-top:2px}
+.counter .cnote.err{color:var(--red-d)}
 .hero-text{max-width:900px}
 
 /* ---------- timeline ---------- */
@@ -345,8 +351,8 @@ footer strong{color:#fff}
           התכנית תתקדם רק אם רוב בתי האב ברחובות הסמוכים יחתמו שהם מסכימים. <strong>חתימה אחת מכל בית אב — וזה קורה.</strong></p>
 
         <div class="counter" role="status" aria-live="polite">
-          <span class="num" id="count">—</span>
-          <span class="txt"><b>בתי אב כבר חתמו בעד התכנית</b>כל בית אב נספר פעם אחת<span class="against-line" id="against-line" hidden></span></span>
+          <span class="num loading" id="count">טוען…</span>
+          <span class="txt"><b>בתי אב כבר חתמו בעד התכנית</b>כל בית אב נספר פעם אחת<span class="against-line" id="against-line" hidden></span><span class="cnote" id="count-note" hidden></span></span>
         </div>
 
         <div class="btns">
@@ -854,12 +860,16 @@ footer strong{color:#fff}
                  stance:st, topics: st==='objection'?topics:[], section: st==='objection'?section:'',
                  reason: st==='objection' ? reason : (st==='against' ? $('f-reason-against').value.trim() : ''),
                  hp:$('f-hp').value};
+    var slowMsg=setTimeout(function(){ showStatus('warn','השרת קצת איטי כרגע — עוד כמה שניות. אין צורך ללחוץ שוב.'); }, 6000);
     submitSignature(payload).then(function(res){
+      clearTimeout(slowMsg); statusBox.className='status';
       btn.disabled=false; btn.innerHTML=label;
       if(res && res.ok){
         applyList(res);
         if(res.duplicate){ showStatus('warn','בית האב הזה כבר רשום — מישהו מהבית השיב לפניכם. התשובה לא נספרה פעמיים. תודה!'); return; }
         onSigned(c, st, payload.loc);
+      } else if(res && res.error==='slow'){
+        showStatus('warn','השרת לא ענה בזמן, וייתכן שהחתימה בכל זאת נקלטה. חכו דקה ורעננו את הדף: אם הבית שלכם צבוע במפה — הכל בסדר. אם לא — נסו לחתום שוב.');
       } else if(res && res.error==='reason'){
         showStatus('err','בהשגה צריך לסמן נושא ולכתוב נימוק.');
       } else {
@@ -925,28 +935,58 @@ footer strong{color:#fff}
       document.head.appendChild(s);
     });
   }
+  var CACHE_KEY='plan_list_cache_v2';
+  function saveCache(d){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), d:d})); }catch(e){} }
+  function readCache(){ try{ var c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null'); if(c && c.d && c.d.ok && Date.now()-c.t < 14*864e5) return c.d; }catch(e){} return null; }
+  function countNote(text, isErr){ var n=$('count-note'); n.hidden=!text; n.textContent=text||''; n.classList.toggle('err', !!isErr); }
+  /* שרתי Apps Script לפעמים נתקעים לכמה שניות ואפילו לדקה. לכן: בקשה אחת, ואם אין תשובה
+     אחרי 5 שניות — בקשה נוספת במקביל. הראשונה שחוזרת מנצחת. אחרי 25 שניות מוותרים. */
+  function fetchList(){
+    return fetch(ENDPOINT+'?action=list&_='+Date.now(), {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); });
+  }
   function loadList(){
     if(DEMO){ return Promise.resolve(demoList()); }
     if(!ENDPOINT){ return Promise.resolve(null); }
-    return fetch(ENDPOINT+'?action=list&_='+Date.now(), {cache:'no-store'})
-      .then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); })
-      .catch(function(){ return jsonp(ENDPOINT); })
-      .catch(function(){ return null; });
+    return new Promise(function(resolve){
+      var done=false, fails=0, tries=0, hedge, giveUp;
+      function finish(d){
+        if(done) return;
+        if(d && d.ok){ done=true; clearTimeout(hedge); clearTimeout(giveUp); saveCache(d); resolve(d); }
+      }
+      function fail(){ fails++; if(fails>=tries && tries>=2 && !done){ done=true; clearTimeout(giveUp); resolve(null); } else if(tries<2){ clearTimeout(hedge); second(); } }
+      function second(){ if(done || tries>=2) return; tries++; jsonp(ENDPOINT).then(finish, fail); }
+      tries++; fetchList().then(finish, fail);
+      hedge=setTimeout(second, 5000);
+      giveUp=setTimeout(function(){ if(!done){ done=true; resolve(null); } }, 25000);
+    });
   }
   function submitSignature(p){
     if(DEMO){ return new Promise(function(res){ setTimeout(function(){ res(demoSign(p)); }, 600); }); }
-    return fetch(ENDPOINT, {method:'POST', body:JSON.stringify(p)})
-      .then(function(r){ return r.json(); })
-      .catch(function(){
-        return fetch(ENDPOINT, {method:'POST', mode:'no-cors', body:JSON.stringify(p)})
-          .then(function(){ return new Promise(function(r){ setTimeout(r, 2500); }); })
-          .then(function(){ return jsonp(ENDPOINT); })
-          .then(function(list){
-            if(list && list.ok){ applyList(list);
-              if((hasDigit(p.house) && signed[keyOf(p.street,p.house)]) || (p.loc && signedLoc[p.loc])) return list; }
-            return {ok:false};
-          })
-          .catch(function(){ return {ok:false}; });
+    function inList(list){
+      if(!list || !list.ok) return false;
+      var k = hasDigit(p.house) ? keyOf(p.street,p.house) : '';
+      return (list.signed||[]).some(function(r){
+        return (k && hasDigit(r[1]) && keyOf(r[0],r[1])===k) || (p.loc && String(r[2]).replace(/^osm:/,'')===String(p.loc));
+      });
+    }
+    function checkList(){ return loadList().then(function(l){ return inList(l) ? l : null; }); }
+    var ctl = ('AbortController' in window) ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function(){ ctl.abort(); }, 25000) : null;
+    return fetch(ENDPOINT, {method:'POST', body:JSON.stringify(p), signal: ctl ? ctl.signal : undefined})
+      .then(function(r){ if(timer) clearTimeout(timer); return r.json(); })
+      .catch(function(err){
+        if(timer) clearTimeout(timer);
+        // אולי החתימה בכל זאת נקלטה — בודקים ברשימה לפני שמנסים שוב
+        return checkList().then(function(l){
+          if(l) return l;
+          if(err && err.name==='AbortError') return {ok:false, error:'slow'};   // לא שולחים שוב אחרי תקיעה — כדי לא לחתום פעמיים
+          return fetch(ENDPOINT, {method:'POST', mode:'no-cors', body:JSON.stringify(p)})
+            .then(function(){ return new Promise(function(r){ setTimeout(r, 2500); }); })
+            .then(checkList)
+            .then(function(l2){ return l2 || {ok:false}; })
+            .catch(function(){ return {ok:false}; });
+        });
       });
   }
 
@@ -974,7 +1014,7 @@ footer strong{color:#fff}
       if(hasDigit(r[1])) signed[keyOf(r[0],r[1])]=st;
       if(r[2]) signedLoc[String(r[2]).replace(/^osm:/,'')]=st;
     });
-    $('count').textContent = lastRows.length-nx;
+    $('count').classList.remove('loading'); $('count').textContent = lastRows.length-nx;
     var al=$('against-line'); al.hidden = !nx; al.textContent = nx ? ('ו-'+nx+' בתי אב סימנו שהם נגד') : '';
     paintAll(); renderTable(); fillHouses(true); checkAlready();
   }
@@ -1146,9 +1186,23 @@ footer strong{color:#fff}
   /* ---------- הפעלה ---------- */
   fillStreets(); fillHouses(false);
   if(!ENDPOINT && !DEMO){ $('closed').classList.add('show'); $('f-submit').disabled=true; }
+  var firstLoad = loadList();                       // הבקשה לשרת יוצאת מיד, במקביל לציור המפה
   initMap();
-  loadList().then(function(d){ if(d) applyList(d); else { $('count').textContent='0'; renderTable(); } });
-  document.addEventListener('visibilitychange', function(){ if(!document.hidden && (ENDPOINT||DEMO)) loadList().then(applyList); });
+  var cached = (!DEMO && ENDPOINT) ? readCache() : null;
+  if(cached){ applyList(cached); countNote('מתעדכן…'); }
+  if(!ENDPOINT && !DEMO){ $('count').classList.remove('loading'); $('count').textContent='0'; renderTable(); }
+  function refresh(p){
+    (p || loadList()).then(function(d){
+      if(d && d.ok){ applyList(d); countNote(''); }
+      else if(ENDPOINT){
+        if(lastRows.length || cached){ countNote('לא הצלחנו לרענן את המונה כרגע. נסו שוב בעוד רגע.', true); }
+        else { $('count').classList.remove('loading'); $('count').textContent='?'; countNote('המונה לא נטען. רעננו את הדף בעוד רגע.', true); renderTable(); }
+      }
+    });
+  }
+  refresh(firstLoad);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden && (ENDPOINT||DEMO)) refresh(); });
+  setInterval(function(){ if(!document.hidden && ENDPOINT) refresh(); }, 60000);   // מתעדכן לבד כל דקה
 })();
 </script>
 </body>
